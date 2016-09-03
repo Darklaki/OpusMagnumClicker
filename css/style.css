@@ -1,4 +1,4 @@
-body{margin: 0px; display: flex; justify-content: center;padding: 0px 0px 0px 0px;}
+body{margin: 0px; display: flex; justify-content: center;flex-direction: column;align-items: center; padding: 0px 0px 0px 0px;}
 
 
 .game {
@@ -311,4 +311,9 @@ body{margin: 0px; display: flex; justify-content: center;padding: 0px 0px 0px 0p
 #startButton {
     margin-top: 20px;
     margin-bottom: 10px;
+}
+
+.contact {
+    display: flex;
+    flex-direction: row;
 }
