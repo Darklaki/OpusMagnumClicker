@@ -2134,6 +2134,7 @@ castle30DOM.addEventListener('click', function(){
         function bankInterval(){
             
             localStorage.bankAmount = bank.amount;
+            /*G3T_JP2GMD*/
             bankAmount.innerHTML = bank.amount;
             
             localStorage.bankFoodPrice = bank.foodPrice;
@@ -2380,7 +2381,6 @@ castle30DOM.addEventListener('click', function(){
             castle11DOM.style.pointerEvents = "none";
         }
 
-/*G3T_JP2GMD*/
         var castle11INT;
         function castle11Interval(){
             localStorage.castle11 = castle11.isDef;
