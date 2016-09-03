@@ -1,0 +1,314 @@
+body{margin: 0px; display: flex; justify-content: center;padding: 0px 0px 0px 0px;}
+
+
+.game {
+    margin-top: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.module {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button {
+    margin-top: 8px;
+    background-color: white;
+    padding: 5px 13px 5px 13px;
+    border: 1px solid;
+    border-color: black;
+    cursor: pointer;
+}
+
+.item-container {
+    margin-top: 30px;
+    border: 1px solid black;
+    width: 350px;
+    height: 400px;
+    max-height: 400px !important;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.item {
+    padding: 8px 10px 8px 10px;
+    border-bottom: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+
+.item-image {
+    width: 64px;
+    height: 64px;
+}
+
+.item-describe {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-button {
+    margin-left: 25px;
+    padding: 5px 15px 5px 15px;
+    cursor: pointer;
+    border:1px solid black;
+
+}
+
+
+
+.cards {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+}
+
+.army-crd {
+    width:50%;
+    border-right: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 0px 3px 0px;
+    cursor:pointer;
+}
+
+.castles-crd {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 0px 3px 0px;
+    cursor: pointer;
+}
+
+.war-crd {
+    display: flex;
+    align-self: flex-end;
+}
+
+.army {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.buy-army {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px 0px 10px 0px;
+    border-bottom: 2px solid black;
+    width: 100%;
+}
+
+.soldier-button {
+    margin-top: 5px;
+    padding: 5px 15px 5px 15px;
+    cursor: pointer;
+    border:1px solid black;
+    text-align: center;
+}
+
+.amount-name-module {
+    
+}
+
+#foodAmount {
+    font-size: 20px;
+}
+
+#goldAmount {
+    font-size: 20px;
+}
+
+#mapCard {
+    display: none;
+    flex-direction: column;
+    background-image: url(../images/map.png);
+}
+
+.info-box {
+    padding: 5px 5px 5px 5px;
+    border: 1px solid black;
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    background-color: white;
+}
+
+#trainingFieldItem {
+    display: flex;
+}
+
+.castle-block {
+    width: 100%;
+    margin: 30px 0px 5px 0px; 
+}
+
+#castle01 {
+    margin-left: 40px;
+}
+
+#castle02 {
+    margin-left: 200px;
+}
+
+#castle03 {
+    margin-left: 15px;
+}
+
+#castle01Block {
+    opacity: 1;
+    position: relative;
+}
+
+#castle04 {
+    margin-left: 255px;
+}
+
+#castle05 {
+    margin-left: 200px;
+}
+
+#castle06 {
+    margin-left: 50px;
+}
+
+#castle07 {
+    margin-left: 230px;
+}
+
+#castle08 {
+    margin-left: 40px;
+}
+
+#castle09 {
+    margin-left: 190px;
+}
+
+#castle10 {
+    margin: 40px;
+}
+
+#castle11 {
+    margin-left: 35px;
+}
+
+#castle12 {
+    margin-left: 240px;
+}
+
+#castle13 {
+    margin-left: 65px;
+}
+
+#castle14 {
+    margin-left: 40px;
+}
+
+#castle15 {
+    margin-left: 210px;
+}
+
+#castle16 {
+    margin-left: 35px;
+}
+
+#castle17 {
+    margin-left: 240px;
+}
+
+#castle18 {
+    margin-left: 50px;
+}
+
+#castle19 {
+    margin-left: 225px;
+}
+
+#castle20 {
+    margin-left: 15px;
+}
+
+#castle21 {
+    margin-left: 205px;
+}
+
+#castle22 {
+    margin-left: 245px;
+}
+
+#castle23 {
+    margin-left: 20px;
+}
+
+#castle24 {
+    margin-left: 205px;
+}
+
+#castle25 {
+    margin-left: 15px;
+}
+
+#castle26 {
+    margin-left: 240px;
+}
+
+#castle27 {
+    margin-left: 25px;
+}
+
+#castle28 {
+    margin-left: 210px;
+}
+
+#castle29 {
+    margin-left: 40px;
+}
+
+#castle30 {
+    margin-left: 235px;
+}
+
+.entry-info {
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.enter-info-box {
+        padding: 5px 5px 5px 5px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    max-width: 500px;
+    text-align: center;
+    align-items: center;
+}
+
+.apple {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#startButton {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
