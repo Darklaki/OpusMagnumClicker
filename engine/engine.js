@@ -436,7 +436,7 @@ if( (gold < 11000) && (entertainment.amount < 1) ){
     clearInterval(entertainmentShowCheck);
 };
 setInterval(entertainmentShowCheck, 400);
-
+ 
 var betterEconomy = {
     amount: 0,
     foodPrice: 0,
