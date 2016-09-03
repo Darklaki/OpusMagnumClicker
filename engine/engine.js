@@ -489,8 +489,8 @@ setInterval(taxesShowCheck, 400);
 
 var education = {
     amount: 0,
-    foodPrice: 1800000,
-    goldPrice: 2,
+    foodPrice: 0,
+    goldPrice: 1800000,
     foodPS: 0,
     goldPS: 5000,
 }
@@ -514,8 +514,8 @@ setInterval(educationShowCheck, 400);
 
 var weaponIndustry = {
     amount: 0,
-    foodPrice: 4000000,
-    goldPrice: 2,
+    foodPrice: 0,
+    goldPrice: 4000000,
     foodPS: 0,
     goldPS: 10000
 }
@@ -539,8 +539,8 @@ setInterval(weaponIndustryShowCheck, 400);
 
 var bank = {
     amount: 0,
-    foodPrice: 10000000,
-    goldPrice: 2,
+    foodPrice: 0,
+    goldPrice: 10000000,
     foodPS: 0,
     goldPS: 30000,
 }
