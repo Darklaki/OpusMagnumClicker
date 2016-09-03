@@ -322,3 +322,7 @@ body{margin: 0px; display: flex; justify-content: center;flex-direction: column;
     align-items: center;
     
 }
+
+.mail {
+    padding-right: 5px;
+}
