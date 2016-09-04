@@ -67,6 +67,9 @@ body{margin: 0px; display: flex; justify-content: center;flex-direction: column;
 
 .cards {
     display: flex;
+    background-color: white;
+    position: fixed;
+    width: 333px;
     justify-content: space-around;
     flex-direction: row;
     border-bottom: 1px solid black;
@@ -99,7 +102,7 @@ body{margin: 0px; display: flex; justify-content: center;flex-direction: column;
 .army {
     display: flex;
     flex-direction: column;
-
+    margin-top: 30px;
 }
 
 .buy-army {
@@ -132,6 +135,7 @@ body{margin: 0px; display: flex; justify-content: center;flex-direction: column;
 }
 
 #mapCard {
+    margin-top: 10px;
     display: none;
     flex-direction: column;
     background-image: url(../images/map.png);
