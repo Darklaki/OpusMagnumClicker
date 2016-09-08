@@ -1434,7 +1434,9 @@ castle30DOM.addEventListener('click', function(){
 
 /*RESET_GAME*/
 function reset(){
+    window.clearInterval();
     window.localStorage.clear();
+    window.clearInterval();
     location.reload();
 };
 document.getElementById('resetGame').addEventListener('click', function(){
