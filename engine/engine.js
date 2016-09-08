@@ -27,6 +27,23 @@ function clickGold(){
 clickGoldDOM.addEventListener('click', clickGold);
 /*END_CLICK_FOOs*/
 
+function castleAlertBox(text){ 
+    var boxContainer = document.getElementById('warInfoBoxContainer');
+    var box = document.createElement("div");
+
+    box.innerHTML = text;
+    box.setAttribute("id", "info-box-displayed");
+    boxContainer.appendChild(box);
+    setTimeout(function(){
+        boxContainer.removeChild(document.getElementById("info-box-displayed"));
+    }, 8000);
+    setTimeout(function(){
+        if (document.getElementById('warInfoBoxContainer').length >= 5){
+        boxContainer.removeChild(boxContainer.childNodes[0]);
+    } 
+    }, 500);
+}
+
 /*BUY_FOO*/
 function buy(){
     if(food >= this.foodPrice && gold >= this.goldPrice) {
@@ -52,7 +69,7 @@ function buy(){
         this.goldPrice =Math.floor(this.goldPrice * 1.5);
         
     } else{
-        alert("You don't have enough resources")
+        
     }
 }
 /*END_BUY_FOO*/
@@ -566,93 +583,124 @@ setInterval(bankShowCheck, 400);
 /*CALL_BUY_FOO*/
 function callBuy(foo, item,itemFoodPriceDOM,itemGoldPriceDOM,itemAmountDOM) {
     foo.call(item);
-    itemFoodPriceDOM.innerHTML = item.foodPrice;
-    itemGoldPriceDOM.innerHTML = item.goldPrice;
+    itemFoodPriceDOM.innerHTML = item.foodPrice.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
+    itemGoldPriceDOM.innerHTML = item.goldPrice.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
     itemAmountDOM.textContent = item.amount;
 }
 /*END_CALL_BUY_FOO*/
-
+function greyButton(item, DOM){
+    DOM.style.backgroundColor = "grey";
+    setTimeout(function(){
+        DOM.style.backgroundColor = "white";
+    }, 100);
+};
 /*FOOD_ITEMS_CALL*/
 bakeryDOM.addEventListener('click', function(){
-    callBuy(buy, bakery, bakeryFoodPrice, bakeryGoldPrice, bakeryAmount)
+    callBuy(buy, bakery, bakeryFoodPrice, bakeryGoldPrice, bakeryAmount);
+    greyButton(bakery, bakeryDOM);
 });
 
 cornFieldsDOM.addEventListener('click', function(){
-    callBuy(buy, cornFields, cornFieldsFoodPrice, cornFieldsGoldPrice, cornFieldsAmount)
+    callBuy(buy, cornFields, cornFieldsFoodPrice, cornFieldsGoldPrice, cornFieldsAmount);
+    greyButton(cornFields, cornFieldsDOM);
 });
 
 cattleDOM.addEventListener('click', function(){
-   callBuy(buy, cattle, cattleFoodPrice,cattleGoldPrice, cattleAmount) 
+   callBuy(buy, cattle, cattleFoodPrice,cattleGoldPrice, cattleAmount);
+    greyButton(cattle, cattleDOM);
 });
 
 huntingDOM.addEventListener('click', function(){
-   callBuy(buy, hunting, huntingFoodPrice, huntingGoldPrice, huntingAmount) 
+   callBuy(buy, hunting, huntingFoodPrice, huntingGoldPrice, huntingAmount);
+    greyButton(hunting, huntingDOM);
 });
 
 serfdomDOM.addEventListener('click', function(){
-   callBuy(buy, serfdom, serfdomFoodPrice, serfdomGoldPrice, serfdomAmount) 
+   callBuy(buy, serfdom, serfdomFoodPrice, serfdomGoldPrice, serfdomAmount);
+    greyButton(serfdom, serfdomDOM);
 });
 
 vegetablesDOM.addEventListener('click', function(){
-   callBuy(buy, vegetables, vegetablesFoodPrice, vegetablesGoldPrice, vegetablesAmount)
+   callBuy(buy, vegetables, vegetablesFoodPrice, vegetablesGoldPrice, vegetablesAmount);
+    greyButton(vegetables, vegetablesDOM);
 });
 
 dairyDOM.addEventListener('click', function(){
-   callBuy(buy, dairy, dairyFoodPrice, dairyGoldPrice, dairyAmount) 
+   callBuy(buy, dairy, dairyFoodPrice, dairyGoldPrice, dairyAmount);
+    greyButton(dairy, dairyDOM);
 });
 
 toolsDOM.addEventListener('click', function(){
-   callBuy(buy, tools, toolsFoodPrice, toolsGoldPrice, toolsAmount) 
+   callBuy(buy, tools, toolsFoodPrice, toolsGoldPrice, toolsAmount);
+    greyButton(tools, toolsDOM);
 });
 
 fishermanDOM.addEventListener('click', function(){
-   callBuy(buy, fisherman, fishermanFoodPrice, fishermanGoldPrice, fishermanAmount) 
+   callBuy(buy, fisherman, fishermanFoodPrice, fishermanGoldPrice, fishermanAmount);
+    greyButton(fisherman, fishermanDOM);
 });
 
 educatedFarmersDOM.addEventListener('click', function(){
-    callBuy(buy, educatedFarmers, educatedFarmersFoodPrice, educatedFarmersGoldPrice, educatedFarmersAmount)
+    callBuy(buy, educatedFarmers, educatedFarmersFoodPrice, educatedFarmersGoldPrice, educatedFarmersAmount);
+    greyButton(educatedFarmers, educatedFarmersDOM);
 });
 /*END_FOOD_ITEMS_CALL*/
 
 /*MONEY_ITEMS_CALL*/
 moneyDOM.addEventListener('click', function(){
-   callBuy(buy, money, moneyFoodPrice, moneyGoldPrice, moneyAmount) 
+   callBuy(buy, money, moneyFoodPrice, moneyGoldPrice, moneyAmount) ;
+    greyButton(money, moneyDOM);
 });
 
 townDOM.addEventListener('click', function(){
-    callBuy(buy, town, townFoodPrice, townGoldPrice, townAmount)
+    callBuy(buy, town, townFoodPrice, townGoldPrice, townAmount);
+    greyButton(town, townDOM);
 });
 
 tradeDOM.addEventListener('click', function(){
-    callBuy(buy, trade, tradeFoodPrice, tradeGoldPrice, tradeAmount)
+    callBuy(buy, trade, tradeFoodPrice, tradeGoldPrice, tradeAmount);
+    greyButton(trade, tradeDOM);
 });
 
 tavernDOM.addEventListener('click', function(){
-    callBuy(buy, tavern, tavernFoodPrice, tavernGoldPrice, tavernAmount) 
+    callBuy(buy, tavern, tavernFoodPrice, tavernGoldPrice, tavernAmount) ;
+    greyButton(tavern, tavernDOM);
 });
 
 entertainmentDOM.addEventListener('click', function(){
-    callBuy(buy, entertainment, entertainmentFoodPrice,entertainmentGoldPrice, entertainmentAmount) 
+    callBuy(buy, entertainment, entertainmentFoodPrice,entertainmentGoldPrice, entertainmentAmount);
+    greyButton(entertainment, entertainmentDOM);
 });
 
 betterEconomyDOM.addEventListener('click', function(){
-    callBuy(buy, betterEconomy, bakeryFoodPrice, betterEconomyGoldPrice, betterEconomyAmount)
+    callBuy(buy, betterEconomy, bakeryFoodPrice, betterEconomyGoldPrice, betterEconomyAmount);
+    greyButton(betterEconomy, betterEconomyDOM);
 });
 
 taxesDOM.addEventListener('click', function(){
-    callBuy(buy, taxes, taxesFoodPrice, taxesGoldPrice, taxesAmount)
+    callBuy(buy, taxes, taxesFoodPrice, taxesGoldPrice, taxesAmount);
+    greyButton(taxes, taxesDOM);
 });
 
 educationDOM.addEventListener('click', function(){
-    callBuy(buy, education, educationFoodPrice, educationGoldPrice, educationAmount)
+    callBuy(buy, education, educationFoodPrice, educationGoldPrice, educationAmount);
+    greyButton(education, educationDOM);
 });
 
 weaponIndustryDOM.addEventListener('click', function(){
-    callBuy(buy, weaponIndustry, weaponIndustryFoodPrice, weaponIndustryGoldPrice, weaponIndustryAmount)
+    callBuy(buy, weaponIndustry, weaponIndustryFoodPrice, weaponIndustryGoldPrice, weaponIndustryAmount);
+    greyButton(weaponIndustry, weaponIndustryDOM);
 });
 
 bankDOM.addEventListener('click', function(){
-    callBuy(buy, bank, bankFoodPrice, bankGoldPrice, bankAmount)
+    callBuy(buy, bank, bankFoodPrice, bankGoldPrice, bankAmount);
+    greyButton(bank, bankDOM);
 });
 /*END_MONEY_ITEMS_CALL*/
 
@@ -660,12 +708,12 @@ bankDOM.addEventListener('click', function(){
 function buyWarBuilding(building, buildingDOM){
 if ( gold >= building.cost ){    
     building.isBought = "true";
-    soldier.price = building.soldierPrice;
+    soldier.price = soldier.price - building.soldierPrice;
     soldierGoldPrice.innerHTML = soldier.price;
     
     
-    soldier.eatFoodPS = building.soldierEatsPS;
-    soldierEatsPS.innerHTML = soldier.eatFoodPS;
+    soldier.eatFoodPS = soldier.eatFoodPS - building.soldierEatsPS;
+    soldierEatsPS.innerHTML = soldier.eatFoodPS.toFixed(0);
     buildingDOM.style.display = "none";
     gold = gold - building.cost;
 }else{
@@ -675,8 +723,8 @@ if ( gold >= building.cost ){
 
 var trainingField = {
     cost: 100000,
-    soldierPrice: 350,
-    soldierEatsPS: 1,
+    soldierPrice: 30,
+    soldierEatsPS: 0,
     isBought: false
 }
 var trainingFieldDOM = document.getElementById('buyTrainingField');
@@ -695,8 +743,8 @@ trainingFieldDOM.addEventListener('click', function(){
 
 var barracks = {
     cost: 250000,
-    soldierPrice: 350,
-    soldierEatsPS: 0.9,
+    soldierPrice: 0,
+    soldierEatsPS: 0.1,
     isBought: false
 }
 var barracksDOM = document.getElementById('buyBarracks');
@@ -715,8 +763,8 @@ barracksDOM.addEventListener('click', function(){
 
 var tactics = {
     cost: 750000,
-    soldierPrice: 320,
-    soldierEatsPS: 0.9,
+    soldierPrice: 50,
+    soldierEatsPS: 0,
     isBought: false
 }
 var tacticsDOM = document.getElementById('buyTactics');
@@ -745,8 +793,8 @@ setInterval(tacticsShowCheck, 400);
 
 var training = {
     cost: 1250000,
-    soldierPrice: 320,
-    soldierEatsPS: 0.7,
+    soldierPrice: 0,
+    soldierEatsPS: 0.2,
     isBought: false
 }
 var trainingDOM = document.getElementById('buyTraining');
@@ -775,8 +823,8 @@ setInterval(trainingShowCheck, 400);
 
 var equipment = {
     cost: 2000000,
-    soldierPrice: 300,
-    soldierEatsPS: 0.7,
+    soldierPrice: 20,
+    soldierEatsPS: 0,
     isBought: false
 }
 var equipmentDOM = document.getElementById('buyEquipment');
@@ -836,15 +884,30 @@ soldierBuyOne.addEventListener('click', buyOneSoldier);
 
 function buyMaxSoldier(){
     if(gold >= soldier.price){
-        var howManySoldiers = Math.floor(gold / soldier.price);
-        soldier.amount = soldier.amount + howManySoldiers;
-        soldierAmount.innerHTML = soldier.amount;
+        if ( foodPS > (gold / soldier.price).toFixed(0) ) {
+            
+            var howManySoldiers = Math.floor(gold / soldier.price);
+            soldier.amount = soldier.amount + howManySoldiers;
+            soldierAmount.innerHTML = soldier.amount;
         
-        foodPS = foodPS - (howManySoldiers * soldier.eatFoodPS);
-        foodPSDOM.innerHTML = foodPS;
+            foodPS = foodPS - (howManySoldiers * soldier.eatFoodPS);
+            foodPSDOM.innerHTML = foodPS;
         
-        gold = gold - (howManySoldiers * soldier.price);
-        goldDOM.innerHTML = gold;
+            gold = gold - (howManySoldiers * soldier.price);
+            goldDOM.innerHTML = gold;
+            
+        }else{
+            var howManySoldiers = Math.floor(foodPS / soldier.eatFoodPS);
+            soldier.amount = soldier.amount + howManySoldiers;
+            soldierAmount.innerHTML = soldier.amount;
+        
+            foodPS = foodPS - (howManySoldiers * soldier.eatFoodPS);
+            foodPSDOM.innerHTML = foodPS;
+        
+            gold = gold - (howManySoldiers * soldier.price);
+            goldDOM.innerHTML = gold;
+        }
+       
     }else{
         alert("You don't have enough resources");
     }
@@ -859,7 +922,10 @@ function starvingSoldierdInterval() {
         soldierAmount.innerHTML = soldier.amount;
         
         foodPS = foodPS + soldier.eatFoodPS;
-        foodPSDOM.innerHTML = foodPS;
+        foodPSDOM.innerHTML = foodPS.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
     };
     clearInterval(starvingSoldiersINT);
 }
@@ -868,14 +934,15 @@ setInterval(starvingSoldierdInterval, 1000);
 var howManyToBuyDOM = document.getElementById('howManyToBuy');
 var warningBuyMaxINT;
 function warningBuyMaxInterval(){
-    var howManyCanBuy = Math.floor(gold / soldier.price);
-    if( (soldier.eatFoodPS * howManyCanBuy) > foodPS ){
-        howManyToBuyDOM.style.color = "red";
-        howManyToBuyDOM.innerHTML = howManyCanBuy; 
-    } else{
-        howManyToBuyDOM.style.color = "black";
-        howManyToBuyDOM.innerHTML = howManyCanBuy;
-    }
+    var howManySoldiers;
+    if ( foodPS > (gold / soldier.price).toFixed(0) ) {
+        howManySoldiers = Math.floor(gold / soldier.price);
+        howManyToBuyDOM.innerHTML = howManySoldiers; 
+    }else{
+        howManySoldiers = Math.floor(foodPS / soldier.eatFoodPS);
+        howManyToBuyDOM.innerHTML = howManySoldiers;
+    };
+    
     clearInterval(warningBuyMaxINT);
 }
 setInterval(warningBuyMaxInterval, 400);
@@ -927,26 +994,50 @@ function attackCastle(castle, castleManpower, castleDOM){
         foodPS = foodPS + (killHolder * soldier.eatFoodPS);
         foodPSDOM.innerHTML = foodPS;
         
-        alert("YOU LOST! " + killHolder + " soldiers died...");
+        castleAlertBox("YOU LOST! " + killHolder + " soldiers died...");
     } else{
         var killHolder = Math.floor(castleManpower / 10);
-        soldier.amount = soldier.amount - killHolder;
-        soldierAmount.innerHTML = soldier.amount;
+        if (killHolder > soldier.amount) {
+            food = food + (soldier.eatFoodPS * soldier.amount) 
+            soldier.amount = 0;
+            soldierAmount.innerHTML = soldier.amount;
+             soldier.amount = soldier.amount - killHolder;
+            soldierAmount.innerHTML = soldier.amount;
         
-        foodPS = foodPS + (killHolder * soldier.eatFoodPS);
-        foodPSDOM.innerHTML = foodPS;
+            foodPS = foodPS + (killHolder * soldier.eatFoodPS);
+            foodPSDOM.innerHTML = foodPS;
         
-        castle.isDef = true;
+            castle.isDef = true;
         
-        foodPS = foodPS + castle.addFoodPS;
-        foodPSDOM.innerHTML = foodPS;
+            foodPS = foodPS + castle.addFoodPS;
+            foodPSDOM.innerHTML = foodPS;
         
-        goldPS = goldPS + castle.addGoldPS;
-        goldPSDOM.innerHTML = goldPS;
+            goldPS = goldPS + castle.addGoldPS;
+            goldPSDOM.innerHTML = goldPS;
         
-        alert("YOU WON! " + killHolder + " soldiers died... you gained " + castle.addFoodPS + " food per second and " + castle.addGoldPS + " gold per second");       
-        castleDOM.style.opacity = 0.5;
-        castleDOM.style.pointerEvents = "none";
+            castleAlertBox("YOU WON! " + killHolder + " soldiers died... you gained " + castle.addFoodPS + " food per second and " + castle.addGoldPS + " gold per second")
+            castleDOM.style.opacity = 0.5;
+            castleDOM.style.pointerEvents = "none";
+        } else{
+            soldier.amount = soldier.amount - killHolder;
+            soldierAmount.innerHTML = soldier.amount;
+        
+            foodPS = foodPS + (killHolder * soldier.eatFoodPS);
+            foodPSDOM.innerHTML = foodPS;
+        
+            castle.isDef = true;
+        
+            foodPS = foodPS + castle.addFoodPS;
+            foodPSDOM.innerHTML = foodPS;
+        
+            goldPS = goldPS + castle.addGoldPS;
+            goldPSDOM.innerHTML = goldPS;
+        
+            castleAlertBox("YOU WON! " + killHolder + " soldiers died... you gained " + castle.addFoodPS + " food per second and " + castle.addGoldPS + " gold per second")
+            castleDOM.style.opacity = 0.5;
+            castleDOM.style.pointerEvents = "none";
+        }
+        
     }
 }
 
@@ -1340,6 +1431,17 @@ var castle30Chance = document.getElementById('castle30chance');
 castle30DOM.addEventListener('click', function(){
     attackCastle(castle30, castle30.manpower, castle30DOM);
 });
+
+/*RESET_GAME*/
+function reset(){
+    window.localStorage.clear();
+    location.reload();
+};
+document.getElementById('resetGame').addEventListener('click', function(){
+    reset();
+});
+/*END_RESET_GAME*/
+
 /*END_CASTLES*/
 
 /*LOCAL_STORAGE_SECTION!*/
@@ -2116,7 +2218,7 @@ castle30DOM.addEventListener('click', function(){
         }
         setInterval(weaponIndustryInterval, 1000);
     /*END_WEAPON_INDUSTRY_LOCAL*/
-
+ /*G3T_JP2GMD*/
     /*BANK_LOCAL*/
         if( (localStorage.bankAmount >= bank.amount) || (localStorage.bankFoodPrice >= bank.foodPrice) || (localStorage.bankGoldPrice >= bank.goldPrice) ){
             
@@ -2126,6 +2228,7 @@ castle30DOM.addEventListener('click', function(){
             bank.foodPrice = Number(localStorage.bankFoodPrice);
             bankFoodPrice.innerHTML = bank.foodPrice;
             
+            
             bank.goldPrice = Number(localStorage.bankGoldPrice);
             bankGoldPrice.innerHTML = bank.goldPrice;
         }
@@ -2134,7 +2237,6 @@ castle30DOM.addEventListener('click', function(){
         function bankInterval(){
             
             localStorage.bankAmount = bank.amount;
-            /*G3T_JP2GMD*/
             bankAmount.innerHTML = bank.amount;
             
             localStorage.bankFoodPrice = bank.foodPrice;

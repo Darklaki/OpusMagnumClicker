@@ -1,9 +1,16 @@
 body{margin: 0px; display: flex; justify-content: center;flex-direction: column; padding: 0px 0px 0px 0px;}
 
-
+body{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
 .game {
-    margin-top: 100px;
+    margin-top: 80px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -66,9 +73,9 @@ body{margin: 0px; display: flex; justify-content: center;flex-direction: column;
 
 
 .cards {
+    position: fixed;
     display: flex;
     background-color: white;
-    position: fixed;
     width: 333px;
     justify-content: space-around;
     flex-direction: row;
@@ -148,6 +155,17 @@ body{margin: 0px; display: flex; justify-content: center;flex-direction: column;
     display: none;
     flex-direction: column;
     background-color: white;
+}
+
+#info-box-displayed {
+    padding: 5px 5px 5px 5px;
+    border: 1px solid black;
+    flex-direction: center;
+    max-width: 200px;
+    text-align: center;
+    background-color: white;
+    margin-top:4px;
+    margin-left: 7px
 }
 
 #trainingFieldItem {
@@ -329,4 +347,17 @@ body{margin: 0px; display: flex; justify-content: center;flex-direction: column;
 
 .mail {
     padding-right: 5px;
+}
+.warBoxes {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+
+#resetGame {
+    cursor: pointer;
 }
