@@ -1,4 +1,4 @@
-body{margin: 0px; display: flex; justify-content: center;flex-direction: column; padding: 0px 0px 0px 0px;}
+body{margin: 0px;  justify-content: center;flex-direction: column; padding: 0px 0px 0px 0px;}
 
 body{
     -webkit-touch-callout: none;
@@ -337,6 +337,7 @@ body{
 }
 
 .contact {
+    float: right;
     display: flex;
     flex-direction: row;
     align-self: flex-end;
