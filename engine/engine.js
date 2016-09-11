@@ -1607,7 +1607,7 @@ function barbarianAttack(){
     var chance = Number(defSoldier.amount) / Number(power);
     var szut = Number(Math.random().toFixed(2));
     if (chance < szut) {
-        var killHolder = Math.floor((szut - chance) * defSoldier.amount);
+        var killHolder =  Math.floor(defSoldier.amount * (Math.random() * 0.50) + 0.20);
         defSoldier.amount = defSoldier.amount - killHolder;
         defSoldierAmount.innerHTML = defSoldier.amount;
         
