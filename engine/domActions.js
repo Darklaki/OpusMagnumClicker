@@ -36,6 +36,11 @@ var equipmentIB = document.getElementById('equipmentIB');
 
 showItem(equipmentIMG, equipmentIB);
 
+var barbariansShow = document.getElementById('barbariansShow');
+var barbariansIB = document.getElementById('barbariansIB');
+
+showItem(barbariansShow, barbariansIB);
+
 function showCalculateCastle(over, showItem, castleManpower, chanceDOM){
     over.addEventListener('mouseenter', function show(e){
     var chance = soldier.amount / castleManpower;
@@ -57,15 +62,15 @@ over.addEventListener('mouseleave', function(){
 };
 
 
-showCalculateCastle(castle01DOM, castle01IB, castle01.manpower, castle01Chance);
-showCalculateCastle(castle02DOM, castle02IB, castle02.manpower, castle02Chance);
-showCalculateCastle(castle03DOM, castle03IB, castle03.manpower, castle03Chance);
-showCalculateCastle(castle04DOM, castle04IB, castle04.manpower, castle04Chance);
-showCalculateCastle(castle05DOM, castle05IB, castle05.manpower, castle05Chance);
-showCalculateCastle(castle06DOM, castle06IB, castle06.manpower, castle06Chance);
-showCalculateCastle(castle07DOM, castle07IB, castle07.manpower, castle07Chance);
-showCalculateCastle(castle08DOM, castle08IB, castle08.manpower, castle08Chance);
-showCalculateCastle(castle09DOM, castle09IB, castle09.manpower, castle09Chance);
+showCalculateCastle(castle1DOM, castle1IB, castle1.manpower, castle1Chance);
+showCalculateCastle(castle2DOM, castle2IB, castle2.manpower, castle2Chance);
+showCalculateCastle(castle3DOM, castle3IB, castle3.manpower, castle3Chance);
+showCalculateCastle(castle4DOM, castle4IB, castle4.manpower, castle4Chance);
+showCalculateCastle(castle5DOM, castle5IB, castle5.manpower, castle5Chance);
+showCalculateCastle(castle6DOM, castle6IB, castle6.manpower, castle6Chance);
+showCalculateCastle(castle7DOM, castle7IB, castle7.manpower, castle7Chance);
+showCalculateCastle(castle8DOM, castle8IB, castle8.manpower, castle8Chance);
+showCalculateCastle(castle9DOM, castle9IB, castle9.manpower, castle9Chance);
 showCalculateCastle(castle10DOM, castle10IB, castle10.manpower, castle10Chance);
 showCalculateCastle(castle11DOM, castle11IB, castle11.manpower, castle11Chance);
 showCalculateCastle(castle12DOM, castle12IB, castle12.manpower, castle12Chance);

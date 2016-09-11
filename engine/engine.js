@@ -1,3 +1,14 @@
+/*
+OpusMagnumClicker 0.3
+--**--
+Authors:
+#Łukasz Szulborski - programming/ideas/graphic/SocialMedia;
+#Filip Sasinowski - graphic/ideas;
+--**--
+
+Łukasz Szulborski All Rights Reserved. 2016
+*/
+
 /*MEANS_OF_PAYMENT*/
 var food = 0;
 var foodDOM = document.getElementById('foodAmount');
@@ -717,7 +728,7 @@ if ( gold >= building.cost ){
     buildingDOM.style.display = "none";
     gold = gold - building.cost;
 }else{
-    alert("You don't have enough resources");
+    
     }
 }
 
@@ -738,6 +749,8 @@ trainingFieldDOM.addEventListener('click', function(){
     buyWarBuilding(trainingField, trainingFieldItem);
      if ( gold >= trainingField.cost ){
         localStorage.trainingFieldIB = true;
+    }else{
+        greyButton(trainingField, trainingFieldDOM);
     }
 })
 
@@ -758,6 +771,8 @@ barracksDOM.addEventListener('click', function(){
     buyWarBuilding(barracks, barracksItem);
     if ( gold >= barracks.cost ){
         localStorage.barracksIB = true;
+    }else{
+        greyButton(barracks, barracksDOM);
     }
 });
 
@@ -778,6 +793,8 @@ tacticsDOM.addEventListener('click', function(){
     buyWarBuilding(tactics, tacticsItem);
     if ( gold >= tactics.cost ){
         localStorage.tacticsIB = true;
+    }else{
+        greyButton(tactics, tacticsDOM);
     }
 });
 function tacticsShowCheck(){
@@ -808,6 +825,8 @@ trainingDOM.addEventListener('click', function(){
     buyWarBuilding(training, trainingItem);
     if ( gold >= training.cost ){
         localStorage.trainingIB = true;
+    }else{
+        greyButton(training, trainingDOM);
     }
 });
 function trainingShowCheck(){
@@ -839,6 +858,8 @@ equipmentDOM.addEventListener('click', function(){
     buyWarBuilding(equipment, equipmentItem);
     if ( gold >= equipment.cost ){
         localStorage.equipmentIB = true;
+    }else{
+        greyButton(equipment, equipmentDOM);
     }
 });
 function equipmentShowCheck(){
@@ -877,7 +898,7 @@ function buyOneSoldier(){
         soldier.amount++;
         soldierAmount.innerHTML = soldier.amount;
     }else{
-        alert("You don't have enough resources");
+        greyButton(soldier,soldierBuyOne )
     }
 }
 soldierBuyOne.addEventListener('click', buyOneSoldier);
@@ -909,7 +930,7 @@ function buyMaxSoldier(){
         }
        
     }else{
-        alert("You don't have enough resources");
+        greyButton(soldier,soldierBuyMax )
     }
 }
 soldierBuyMax.addEventListener('click', buyMaxSoldier);
@@ -920,6 +941,8 @@ function starvingSoldierdInterval() {
         food = 0;
         soldier.amount = soldier.amount - 1;
         soldierAmount.innerHTML = soldier.amount;
+        defSoldier.amount = defSoldier.amount -1;
+        defSoldierAmount.innerHTML = defSoldier.amount-1;
         
         foodPS = foodPS + soldier.eatFoodPS;
         foodPSDOM.innerHTML = foodPS.toLocaleString(undefined,{
@@ -927,6 +950,14 @@ function starvingSoldierdInterval() {
                                 maximumFractionDigits: 2
                                 });
     };
+    if (soldier.amount < 0) {
+        soldier.amount = 0;
+        soldierAmount.innerHTML = soldier.amount;
+    }
+     if (defSoldier.amount < 0) {
+        defSoldier.amount = 0;
+        defSoldierAmount.innerHTML = defSoldier.amount;
+    }
     clearInterval(starvingSoldiersINT);
 }
 setInterval(starvingSoldierdInterval, 1000);
@@ -947,6 +978,92 @@ function warningBuyMaxInterval(){
 }
 setInterval(warningBuyMaxInterval, 400);
 /*END_SOLDIERS*/
+
+/*DEF_SOLDIERS*/
+var defSoldier = {
+    amount: 0,
+    price: 1000,
+    eatFoodPS: 1
+}
+
+var defSoldierAmount = document.getElementById('defSoldiersAmount');
+var defSoldierGoldPrice = document.getElementById('defSoldierCost');
+var defSoldierBuyOne = document.getElementById('buyOneDefSoldier');
+var defSoldierBuyMax = document.getElementById('buyMaxDefSoldier');
+var defSoldierEatsPS = document.getElementById('defSoldierEatsPS');
+defSoldierGoldPrice.innerHTML = defSoldier.price;
+defSoldierEatsPS.innerHTML = defSoldier.eatFoodPS;
+
+function buyOneDefSoldier(){
+    if ( gold >= defSoldier.price ){
+        gold = gold - defSoldier.price;
+        goldDOM.innerHTML = gold;
+        
+        foodPS = foodPS - defSoldier.eatFoodPS;
+        foodPSDOM.innerHTML = foodPS;
+        
+        defSoldier.amount++;
+        defSoldierAmount.innerHTML = defSoldier.amount;
+    }else{
+        greyButton(defSoldier, defSoldierBuyOne);
+    }
+};
+defSoldierBuyOne.addEventListener('click', function(){
+    buyOneDefSoldier();
+});
+
+function buyMaxDefSoldier() {
+    if(gold >= defSoldier.price){
+        if ( foodPS > (gold / defSoldier.price).toFixed(0) ) {
+            
+            var howManyDefSoldiers = Math.floor(gold / defSoldier.price);
+            defSoldier.amount = defSoldier.amount + howManyDefSoldiers;
+            defSoldierAmount.innerHTML = defSoldier.amount;
+        
+            foodPS = foodPS - (howManyDefSoldiers * defSoldier.eatFoodPS);
+            foodPSDOM.innerHTML = foodPS;
+        
+            gold = gold - (howManyDefSoldiers * defSoldier.price);
+            goldDOM.innerHTML = gold;
+            
+        }else{
+            var howManyDefSoldiers = Math.floor(foodPS / defSoldier.eatFoodPS);
+            defSoldier.amount = defSoldier.amount + howManyDefSoldiers;
+            defSoldierAmount.innerHTML = defSoldier.amount;
+        
+            foodPS = foodPS - (howManyDefSoldiers * defSoldier.eatFoodPS);
+            foodPSDOM.innerHTML = foodPS;
+        
+            gold = gold - (howManyDefSoldiers * defSoldier.price);
+            goldDOM.innerHTML = gold;
+        }
+       
+    }else{
+        greyButton(soldier,defSoldierBuyMax)
+    }
+}
+defSoldierBuyMax.addEventListener('click', function(){
+    buyMaxDefSoldier();
+});
+
+var howManyDefToBuy = document.getElementById('howManyDefToBuy');
+var warningDefBuyMaxINT;
+function warningDefBuyMaxInterval(){
+    var howManyDefSoldiers;
+    if ( foodPS > (gold / defSoldier.price).toFixed(0) ) {
+        howManyDefSoldiers = Math.floor(gold / defSoldier.price);
+        howManyDefToBuy.innerHTML = howManyDefSoldiers; 
+    }else{
+        howManyDefSoldiers = Math.floor(foodPS / defSoldier.eatFoodPS);
+        howManyDefToBuy.innerHTML = howManyDefSoldiers;
+    };
+    
+    clearInterval(warningDefBuyMaxINT);
+}
+setInterval(warningDefBuyMaxInterval, 400);
+
+
+/*END_DEF_SOLDIERS*/
 
 /*DOM_ACTIONS*/
 var armyCardDOM = document.getElementById('armyCardDOM');
@@ -979,6 +1096,33 @@ enterBoxDOM.addEventListener('click', function(){
     enterBox.is = true;
     localStorage.enterLocal = enterBox.is;
     document.getElementById('enter').style.display="none";
+});
+
+var barbariansLessDOM = document.getElementById('predictLess');
+var barbariansMoreDOM = document.getElementById('predictMore');
+
+function checkBarbarians(less, more) {
+    var power_ = 0
+    for (i = 1; i<=30; i++){
+        if ( this["castle" + i].isDef ){
+            power_ = power_ + 1;
+        }
+        
+    }
+    power_ = power_ * 10 + Math.floor(goldPS * 0.05);
+
+    if (power_ - 50 < 0){
+        less.innerHTML = 0;
+        more.innerHTML = power_ + 50;
+        power_ = 0;
+    }else{
+        less.innerHTML = power_ - 50;
+        more.innerHTML = power_ + 50;
+        power_ = 0;
+    };
+}
+document.getElementById('barbariansShow').addEventListener('mouseover', function(){
+    checkBarbarians(barbariansLessDOM, barbariansMoreDOM);
 });
 /*END_DOM_ACTIONS*/
 
@@ -1042,128 +1186,128 @@ function attackCastle(castle, castleManpower, castleDOM){
 }
 
 
-var castle01 = {
+var castle1 = {
     manpower: 20,
     isDef: false,
-    addFoodPS: 2,
+    addFoodPS: 10,
     addGoldPS: 3
 };
-var castle01DOM = document.getElementById('castle01');
-var castle01IB = document.getElementById('castle01IB');
-var castle01Chance = document.getElementById('castle01chance');
-castle01DOM.addEventListener('click', function(){
-    attackCastle(castle01, castle01.manpower, castle01DOM);
+var castle1DOM = document.getElementById('castle01');
+var castle1IB = document.getElementById('castle01IB');
+var castle1Chance = document.getElementById('castle01chance');
+castle1DOM.addEventListener('click', function(){
+    attackCastle(castle1, castle1.manpower, castle1DOM);
 });
 
-var castle02 = {
+var castle2 = {
     manpower: 60,
     isDef: false,
-    addFoodPS: 5,
-    addGoldPS: 5
+    addFoodPS: 20,
+    addGoldPS: 10
 }
-var castle02DOM = document.getElementById('castle02');
-var castle02IB = document.getElementById('castle02IB');
-var castle02Chance = document.getElementById('castle02chance');
-castle02DOM.addEventListener('click', function(){
-    attackCastle(castle02, castle02.manpower, castle02DOM);
+var castle2DOM = document.getElementById('castle02');
+var castle2IB = document.getElementById('castle02IB');
+var castle2Chance = document.getElementById('castle02chance');
+castle2DOM.addEventListener('click', function(){
+    attackCastle(castle2, castle2.manpower, castle2DOM);
 });
 
-var castle03 = {
+var castle3 = {
     manpower: 140,
     isDef: false,
-    addFoodPS: 6,
-    addGoldPS: 7
+    addFoodPS: 25,
+    addGoldPS: 18
 }
-var castle03DOM = document.getElementById('castle03');
-var castle03IB = document.getElementById('castle03IB');
-var castle03Chance = document.getElementById('castle03chance');
-castle03DOM.addEventListener('click', function(){
-    attackCastle(castle03, castle03.manpower, castle03DOM);
+var castle3DOM = document.getElementById('castle03');
+var castle3IB = document.getElementById('castle03IB');
+var castle3Chance = document.getElementById('castle03chance');
+castle3DOM.addEventListener('click', function(){
+    attackCastle(castle3, castle3.manpower, castle3DOM);
 });
 
-var castle04 = {
+var castle4 = {
     manpower: 250,
     isDef: false,
-    addFoodPS: 8,
-    addGoldPS: 7
+    addFoodPS: 35,
+    addGoldPS: 20
 }
-var castle04DOM = document.getElementById('castle04');
-var castle04IB = document.getElementById('castle04IB');
-var castle04Chance = document.getElementById('castle04chance');
-castle04DOM.addEventListener('click', function(){
-    attackCastle(castle04, castle04.manpower, castle04DOM);
+var castle4DOM = document.getElementById('castle04');
+var castle4IB = document.getElementById('castle04IB');
+var castle4Chance = document.getElementById('castle04chance');
+castle4DOM.addEventListener('click', function(){
+    attackCastle(castle4, castle4.manpower, castle4DOM);
 });
 
-var castle05 = {
+var castle5 = {
     manpower: 360,
     isDef: false,
-    addFoodPS: 8,
-    addGoldPS: 9
+    addFoodPS: 50,
+    addGoldPS: 25
 }
-var castle05DOM = document.getElementById('castle05');
-var castle05IB = document.getElementById('castle05IB');
-var castle05Chance = document.getElementById('castle05chance');
-castle05DOM.addEventListener('click', function(){
-    attackCastle(castle05, castle05.manpower, castle05DOM);
+var castle5DOM = document.getElementById('castle05');
+var castle5IB = document.getElementById('castle05IB');
+var castle5Chance = document.getElementById('castle05chance');
+castle5DOM.addEventListener('click', function(){
+    attackCastle(castle5, castle5.manpower, castle5DOM);
 });
 
-var castle06 = {
+var castle6 = {
     manpower: 500,
     isDef: false,
-    addFoodPS: 8,
-    addGoldPS: 7
+    addFoodPS: 65,
+    addGoldPS: 35
 }
-var castle06DOM = document.getElementById('castle06');
-var castle06IB = document.getElementById('castle06IB');
-var castle06Chance = document.getElementById('castle06chance');
-castle06DOM.addEventListener('click', function(){
-    attackCastle(castle06, castle06.manpower, castle06DOM);
+var castle6DOM = document.getElementById('castle06');
+var castle6IB = document.getElementById('castle06IB');
+var castle6Chance = document.getElementById('castle06chance');
+castle6DOM.addEventListener('click', function(){
+    attackCastle(castle6, castle6.manpower, castle6DOM);
 });
 
-var castle07 = {
+var castle7 = {
     manpower: 700,
     isDef: false,
-    addFoodPS: 10,
-    addGoldPS: 11
+    addFoodPS: 90,
+    addGoldPS: 38
 }
-var castle07DOM = document.getElementById('castle07');
-var castle07IB = document.getElementById('castle07IB');
-var castle07Chance = document.getElementById('castle07chance');
-castle07DOM.addEventListener('click', function(){
-    attackCastle(castle07, castle07.manpower, castle07DOM);
+var castle7DOM = document.getElementById('castle07');
+var castle7IB = document.getElementById('castle07IB');
+var castle7Chance = document.getElementById('castle07chance');
+castle7DOM.addEventListener('click', function(){
+    attackCastle(castle7, castle7.manpower, castle7DOM);
 });
 
-var castle08 = {
+var castle8 = {
     manpower: 1050,
     isDef: false,
-    addFoodPS: 11,
-    addGoldPS: 11
+    addFoodPS: 100,
+    addGoldPS: 40
 }
-var castle08DOM = document.getElementById('castle08');
-var castle08IB = document.getElementById('castle08IB');
-var castle08Chance = document.getElementById('castle08chance');
-castle08DOM.addEventListener('click', function(){
-    attackCastle(castle08, castle08.manpower, castle08DOM);
+var castle8DOM = document.getElementById('castle08');
+var castle8IB = document.getElementById('castle08IB');
+var castle8Chance = document.getElementById('castle08chance');
+castle8DOM.addEventListener('click', function(){
+    attackCastle(castle8, castle8.manpower, castle8DOM);
 });
 
-var castle09 = {
+var castle9 = {
     manpower: 1450,
     isDef: false,
-    addFoodPS: 13,
-    addGoldPS: 12
+    addFoodPS: 115,
+    addGoldPS: 50
 }
-var castle09DOM = document.getElementById('castle09');
-var castle09IB = document.getElementById('castle09IB');
-var castle09Chance = document.getElementById('castle09chance');
-castle09DOM.addEventListener('click', function(){
-    attackCastle(castle09, castle09.manpower, castle09DOM);
+var castle9DOM = document.getElementById('castle09');
+var castle9IB = document.getElementById('castle09IB');
+var castle9Chance = document.getElementById('castle09chance');
+castle9DOM.addEventListener('click', function(){
+    attackCastle(castle9, castle9.manpower, castle9DOM);
 });
 
 var castle10 = {
     manpower: 1900,
     isDef: false,
-    addFoodPS: 15,
-    addGoldPS: 15
+    addFoodPS: 150,
+    addGoldPS: 55
 }
 var castle10DOM = document.getElementById('castle10');
 var castle10IB = document.getElementById('castle10IB');
@@ -1175,8 +1319,8 @@ castle10DOM.addEventListener('click', function(){
 var castle11 = {
     manpower: 2500,
     isDef: false,
-    addFoodPS: 16,
-    addGoldPS: 17
+    addFoodPS: 175,
+    addGoldPS: 57
 }
 var castle11DOM = document.getElementById('castle11');
 var castle11IB = document.getElementById('castle11IB');
@@ -1188,8 +1332,8 @@ castle11DOM.addEventListener('click', function(){
 var castle12 = {
     manpower: 3050,
     isDef: false,
-    addFoodPS: 18,
-    addGoldPS: 18
+    addFoodPS: 200,
+    addGoldPS: 60
 }
 var castle12DOM = document.getElementById('castle12');
 var castle12IB = document.getElementById('castle12IB');
@@ -1201,8 +1345,8 @@ castle12DOM.addEventListener('click', function(){
 var castle13 = {
     manpower: 3550,
     isDef: false,
-    addFoodPS: 20,
-    addGoldPS: 19
+    addFoodPS: 230,
+    addGoldPS: 65
 }
 var castle13DOM = document.getElementById('castle13');
 var castle13IB = document.getElementById('castle13IB');
@@ -1214,8 +1358,8 @@ castle13DOM.addEventListener('click', function(){
 var castle14 = {
     manpower: 4100,
     isDef: false,
-    addFoodPS: 21,
-    addGoldPS: 22
+    addFoodPS: 265,
+    addGoldPS: 80
 }
 var castle14DOM = document.getElementById('castle14');
 var castle14IB = document.getElementById('castle14IB');
@@ -1227,8 +1371,8 @@ castle14DOM.addEventListener('click', function(){
 var castle15 = {
     manpower: 4800,
     isDef: false,
-    addFoodPS: 24,
-    addGoldPS: 25
+    addFoodPS: 350,
+    addGoldPS: 100
 }
 var castle15DOM = document.getElementById('castle15');
 var castle15IB = document.getElementById('castle15IB');
@@ -1240,8 +1384,8 @@ castle15DOM.addEventListener('click', function(){
 var castle16 = {
     manpower: 5400,
     isDef: false,
-    addFoodPS: 35,
-    addGoldPS: 40
+    addFoodPS: 450,
+    addGoldPS: 120
 }
 var castle16DOM = document.getElementById('castle16');
 var castle16IB = document.getElementById('castle16IB');
@@ -1253,8 +1397,8 @@ castle16DOM.addEventListener('click', function(){
 var castle17 = {
     manpower: 5800,
     isDef: false,
-    addFoodPS: 40,
-    addGoldPS: 45
+    addFoodPS: 560,
+    addGoldPS: 140
 }
 var castle17DOM = document.getElementById('castle17');
 var castle17IB = document.getElementById('castle17IB');
@@ -1266,8 +1410,8 @@ castle17DOM.addEventListener('click', function(){
 var castle18 = {
     manpower: 6400,
     isDef: false,
-    addFoodPS: 50,
-    addGoldPS: 50
+    addFoodPS: 700,
+    addGoldPS: 160
 }
 var castle18DOM = document.getElementById('castle18');
 var castle18IB = document.getElementById('castle18IB');
@@ -1279,8 +1423,8 @@ castle18DOM.addEventListener('click', function(){
 var castle19 = {
     manpower: 7100,
     isDef: false,
-    addFoodPS: 75,
-    addGoldPS: 75
+    addFoodPS: 900,
+    addGoldPS: 175
 }
 var castle19DOM = document.getElementById('castle19');
 var castle19IB = document.getElementById('castle19IB');
@@ -1292,8 +1436,8 @@ castle19DOM.addEventListener('click', function(){
 var castle20 = {
     manpower: 8000,
     isDef: false,
-    addFoodPS: 100,
-    addGoldPS: 100
+    addFoodPS: 1200,
+    addGoldPS: 195
 }
 var castle20DOM = document.getElementById('castle20');
 var castle20IB = document.getElementById('castle20IB');
@@ -1305,8 +1449,8 @@ castle20DOM.addEventListener('click', function(){
 var castle21 = {
     manpower: 9000,
     isDef: false,
-    addFoodPS: 110,
-    addGoldPS: 110
+    addFoodPS: 1350,
+    addGoldPS: 205
 }
 var castle21DOM = document.getElementById('castle21');
 var castle21IB = document.getElementById('castle21IB');
@@ -1318,7 +1462,7 @@ castle21DOM.addEventListener('click', function(){
 var castle22 = {
     manpower: 10100,
     isDef: false,
-    addFoodPS: 125,
+    addFoodPS: 1450,
     addGoldPS: 125
 }
 var castle22DOM = document.getElementById('castle22');
@@ -1331,8 +1475,8 @@ castle22DOM.addEventListener('click', function(){
 var castle23 = {
     manpower: 11000,
     isDef: false,
-    addFoodPS: 130,
-    addGoldPS: 135
+    addFoodPS: 500,
+    addGoldPS: 200
 }
 var castle23DOM = document.getElementById('castle23');
 var castle23IB = document.getElementById('castle23IB');
@@ -1344,8 +1488,8 @@ castle23DOM.addEventListener('click', function(){
 var castle24 = {
     manpower: 12200,
     isDef: false,
-    addFoodPS: 150,
-    addGoldPS: 150
+    addFoodPS: 700,
+    addGoldPS: 210
 }
 var castle24DOM = document.getElementById('castle24');
 var castle24IB = document.getElementById('castle24IB');
@@ -1357,8 +1501,8 @@ castle24DOM.addEventListener('click', function(){
 var castle25 = {
     manpower: 13500,
     isDef: false,
-    addFoodPS: 180,
-    addGoldPS: 185
+    addFoodPS: 750,
+    addGoldPS: 215
 }
 var castle25DOM = document.getElementById('castle25');
 var castle25IB = document.getElementById('castle25IB');
@@ -1370,8 +1514,8 @@ castle25DOM.addEventListener('click', function(){
 var castle26 = {
     manpower: 15000,
     isDef: false,
-    addFoodPS: 200,
-    addGoldPS: 205
+    addFoodPS: 900,
+    addGoldPS: 220
 }
 var castle26DOM = document.getElementById('castle26');
 var castle26IB = document.getElementById('castle26IB');
@@ -1383,8 +1527,8 @@ castle26DOM.addEventListener('click', function(){
 var castle27 = {
     manpower: 17000,
     isDef: false,
-    addFoodPS: 240,
-    addGoldPS: 240
+    addFoodPS: 1050,
+    addGoldPS: 210
 }
 var castle27DOM = document.getElementById('castle27');
 var castle27IB = document.getElementById('castle27IB');
@@ -1396,7 +1540,7 @@ castle27DOM.addEventListener('click', function(){
 var castle28 = {
     manpower: 19000,
     isDef: false,
-    addFoodPS: 250,
+    addFoodPS: 1050,
     addGoldPS: 260
 }
 var castle28DOM = document.getElementById('castle28');
@@ -1409,7 +1553,7 @@ castle28DOM.addEventListener('click', function(){
 var castle29 = {
     manpower: 21500,
     isDef: false,
-    addFoodPS: 280,
+    addFoodPS: 1150,
     addGoldPS: 290
 }
 var castle29DOM = document.getElementById('castle29');
@@ -1422,7 +1566,7 @@ castle29DOM.addEventListener('click', function(){
 var castle30 = {
     manpower: 24000,
     isDef: false,
-    addFoodPS: 320,
+    addFoodPS: 1200,
     addGoldPS: 330
 }
 var castle30DOM = document.getElementById('castle30');
@@ -1445,6 +1589,86 @@ document.getElementById('resetGame').addEventListener('click', function(){
 /*END_RESET_GAME*/
 
 /*END_CASTLES*/
+
+/*BARBARIANS*/
+var power = 0;
+function barbarianChance() {
+    power = 0;
+    for (i = 1; i<=30; i++){
+        if ( this["castle" + i].isDef ){
+            power = power + 1;
+        }
+        console.log(power);
+    }
+};
+
+function barbarianAttack(){
+    power = power * 10 + Math.floor(goldPS * 0.05);
+    var chance = Number(defSoldier.amount) / Number(power);
+    var szut = Number(Math.random().toFixed(2));
+    if (chance < szut) {
+        var killHolder = Math.floor((szut - chance) * defSoldier.amount);
+        defSoldier.amount = defSoldier.amount - killHolder;
+        defSoldierAmount.innerHTML = defSoldier.amount;
+        
+        foodPS = foodPS + (defSoldier.eatFoodPS * killHolder);
+        foodPSDOM.innerHTML = foodPS;
+        
+        var stealFood = Math.floor(food * (Math.random() * 0.20) + 0.10);
+        food = food - stealFood;
+        foodDOM.innerHTML = food;
+        
+        var stealGold =  Math.floor(gold * (Math.random() * 0.20) + 0.10);
+        gold = gold - stealGold;
+        goldDOM.innerHTML = gold;
+        
+        castleAlertBox( "Barbarians WON! You lost " + killHolder.toLocaleString(undefined, {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                }) + " defensive soldiers, " + stealFood.toLocaleString(undefined, {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                }) + " food and " + stealGold.toLocaleString(undefined, {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                }) + " gold."); 
+    }else{
+        var killHolder = Math.ceil(defSoldier.amount * 0.05);
+        defSoldier.amount = defSoldier.amount - killHolder;
+        defSoldierAmount.innerHTML = defSoldier.amount;
+        
+        foodPS = foodPS + (defSoldier.eatFoodPS * killHolder);
+        foodPSDOM.innerHTML = foodPS;
+        
+        castleAlertBox("Barbarians LOST, but " + killHolder + " defensive soldiers died...");
+    }
+    
+}
+
+var timer;
+function timerF(sec, display) {
+  timer = sec;
+  setInterval(function(){
+  	var minutes = parseInt( timer / 60, 10 );
+  	var seconds = parseInt( timer % 60, 10 );
+    
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    
+    display.innerHTML = minutes + ":" + seconds;
+    
+    if ( --timer < 0 ){
+        barbarianChance();
+        barbarianAttack();
+        timer = Math.floor(Math.random() * 180) + 180 ;
+    }
+  }, 1000)
+}
+
+timerF(360, document.getElementById("timer"));
+
+
+/*END_BARBARIANS*/
 
 /*LOCAL_STORAGE_SECTION!*/
 
@@ -1561,6 +1785,51 @@ document.getElementById('resetGame').addEventListener('click', function(){
         }
         setInterval(soldierEatsPSInterval, 1000);
     /*END_SOLDIER_EATS_PS_LOCAL*/
+
+    /*DEF_SOLDIERS_LOCAL*/
+        if ( localStorage.defSoldiersAmount >= defSoldier.amount ){
+            defSoldier.amount = Number(localStorage.defSoldiersAmount);
+            defSoldierAmount.innerHTML = defSoldier.amount;
+        }
+
+        var defSoldiersINT;
+        function defSoldiersInterval() {
+            localStorage.defSoldiersAmount = defSoldier.amount;
+            defSoldierAmount.innerHTML = defSoldier.amount;
+            clearInterval(defSoldiersINT);
+        }
+        setInterval(defSoldiersInterval, 1000);
+    /*END_DEF_SOLDIERS_LOCAL*/
+
+    /*DEF_SOLDIER_COST_LOCAL*/
+        if ( localStorage.defSoldierCost <= defSoldier.price ){
+            defSoldier.price = Number(localStorage.defSoldierCost);
+            defSoldierGoldPrice.innerHTML = defSoldier.price;
+        }
+
+        var defSoldierINT;
+        function defSoldierInterval(){
+            localStorage.defSoldierCost = defSoldier.price;
+            defSoldierGoldPrice.innerHTML = defSoldier.price;
+            clearInterval(defSoldierINT);
+        }
+        setInterval(defSoldierInterval, 1000);
+    /*END_DEF_SOLDIER_COST_LOCAL*/
+
+    /*DEF_SOLDIER_EATS_PS_LOCAL*/
+        if ( localStorage.defSoldierEatsPS <= defSoldier.eatFoodPS ){
+            defSoldier.eatFoodPS = Number(localStorage.defSoldierEatsPS);
+            defSoldierEatsPS.innerHTML = defSoldier.eatFoodPS;
+        }
+
+        var defSoldierEatsPSINT;
+        function defSoldierEatsPSInterval(){
+            localStorage.defSoldierEatsPS = defSoldier.eatFoodPS;
+            defSoldierEatsPS.innerHTML = defSoldier.eatFoodPS;
+            clearInterval(defSoldierEatsPSINT);
+        }
+        setInterval(defSoldierEatsPSInterval, 1000);
+    /*END_DEF_SOLDIER_EATS_PS_LOCAL*/
 
     /*BAKERY_LOCAL*/
         if ( (localStorage.bakeryAmount >= bakery.amount) || (localStorage.bakeryFoodPrice >= bakery.foodPrice) || (localStorage.bakeryGoldPrice >= bakery.goldPrice) )  {
@@ -2328,140 +2597,140 @@ document.getElementById('resetGame').addEventListener('click', function(){
     /*END_EQUIPMENT_LOCAL*/
 
 
-    /*CASTLE01_LOCAL*/
-        if (localStorage.castle01 === "true"){
-            castle01.isDef = localStorage.castle01;
-            castle01DOM.style.opacity = 0.5;
-            castle01DOM.style.pointerEvents = "none";
+    /*castle1_LOCAL*/
+        if (localStorage.castle1 === "true"){
+            castle1.isDef = localStorage.castle1;
+            castle1DOM.style.opacity = 0.5;
+            castle1DOM.style.pointerEvents = "none";
         }
 
-        var castle01INT;
-        function castle01Interval(){
-            localStorage.castle01 = castle01.isDef;
-            clearInterval(castle01INT);
+        var castle1INT;
+        function castle1Interval(){
+            localStorage.castle1 = castle1.isDef;
+            clearInterval(castle1INT);
         }
-        setInterval(castle01Interval, 1000);
-    /*END_CASTLE01_LOCAL*/
+        setInterval(castle1Interval, 1000);
+    /*END_castle1_LOCAL*/
     
-    /*CASTLE02_LOCAL*/
-        if (localStorage.castle02 === "true"){
-            castle02.isDef = localStorage.castle02;
-            castle02DOM.style.opacity = 0.5;
-            castle02DOM.style.pointerEvents = "none";
+    /*castle2_LOCAL*/
+        if (localStorage.castle2 === "true"){
+            castle2.isDef = localStorage.castle2;
+            castle2DOM.style.opacity = 0.5;
+            castle2DOM.style.pointerEvents = "none";
         }
 
-        var castle02INT;
-        function castle02Interval(){
-            localStorage.castle02 = castle02.isDef;
-            clearInterval(castle02INT);
+        var castle2INT;
+        function castle2Interval(){
+            localStorage.castle2 = castle2.isDef;
+            clearInterval(castle2INT);
         }
-        setInterval(castle02Interval, 1000);
-    /*END_CASTLE02_LOCAL*/
+        setInterval(castle2Interval, 1000);
+    /*END_castle2_LOCAL*/
 
-    /*CASTLE03_LOCAL*/
-        if (localStorage.castle03 === "true"){
-            castle03.isDef = localStorage.castle03;
-            castle03DOM.style.opacity = 0.5;
-            castle03DOM.style.pointerEvents = "none";
-        }
-
-        var castle03INT;
-        function castle03Interval(){
-            localStorage.castle03 = castle03.isDef;
-            clearInterval(castle03INT);
-        }
-        setInterval(castle03Interval, 1000);
-    /*END_CASTLE03_LOCAL*/
-
-    /*CASTLE04_LOCAL*/
-        if (localStorage.castle04 === "true"){
-            castle04.isDef = localStorage.castle04;
-            castle04DOM.style.opacity = 0.5;
-            castle04DOM.style.pointerEvents = "none";
+    /*castle3_LOCAL*/
+        if (localStorage.castle3 === "true"){
+            castle3.isDef = localStorage.castle3;
+            castle3DOM.style.opacity = 0.5;
+            castle3DOM.style.pointerEvents = "none";
         }
 
-        var castle04INT;
-        function castle04Interval(){
-            localStorage.castle04 = castle04.isDef;
-            clearInterval(castle04INT);
+        var castle3INT;
+        function castle3Interval(){
+            localStorage.castle3 = castle3.isDef;
+            clearInterval(castle3INT);
         }
-        setInterval(castle04Interval, 1000);
-    /*END_CASTLE04_LOCAL*/
+        setInterval(castle3Interval, 1000);
+    /*END_castle3_LOCAL*/
 
-    /*CASTLE05_LOCAL*/
-        if (localStorage.castle05 === "true"){
-            castle05.isDef = localStorage.castle05;
-            castle05DOM.style.opacity = 0.5;
-            castle05DOM.style.pointerEvents = "none";
-        }
-
-        var castle05INT;
-        function castle05Interval(){
-            localStorage.castle05 = castle05.isDef;
-            clearInterval(castle05INT);
-        }
-        setInterval(castle05Interval, 1000);
-    /*END_CASTLE05_LOCAL*/
-
-    /*CASTLE06_LOCAL*/
-        if (localStorage.castle06 === "true"){
-            castle06.isDef = localStorage.castle06;
-            castle06DOM.style.opacity = 0.5;
-            castle06DOM.style.pointerEvents = "none";
+    /*castle4_LOCAL*/
+        if (localStorage.castle4 === "true"){
+            castle4.isDef = localStorage.castle4;
+            castle4DOM.style.opacity = 0.5;
+            castle4DOM.style.pointerEvents = "none";
         }
 
-        var castle06INT;
-        function castle06Interval(){
-            localStorage.castle06 = castle06.isDef;
-            clearInterval(castle06INT);
+        var castle4INT;
+        function castle4Interval(){
+            localStorage.castle4 = castle4.isDef;
+            clearInterval(castle4INT);
         }
-        setInterval(castle06Interval, 1000);
-    /*END_CASTLE06_LOCAL*/
+        setInterval(castle4Interval, 1000);
+    /*END_castle4_LOCAL*/
 
-    /*CASTLE07_LOCAL*/
-        if (localStorage.castle07 === "true"){
-            castle07.isDef = localStorage.castle07;
-            castle07DOM.style.opacity = 0.5;
-            castle07DOM.style.pointerEvents = "none";
-        }
-
-        var castle07INT;
-        function castle07Interval(){
-            localStorage.castle07 = castle07.isDef;
-            clearInterval(castle07INT);
-        }
-        setInterval(castle07Interval, 1000);
-    /*END_CASTLE07_LOCAL*/
-
-    /*CASTLE08_LOCAL*/
-        if (localStorage.castle08 === "true"){
-            castle08.isDef = localStorage.castle08;
-            castle08DOM.style.opacity = 0.5;
-            castle08DOM.style.pointerEvents = "none";
+    /*castle5_LOCAL*/
+        if (localStorage.castle5 === "true"){
+            castle5.isDef = localStorage.castle5;
+            castle5DOM.style.opacity = 0.5;
+            castle5DOM.style.pointerEvents = "none";
         }
 
-        var castle08INT;
-        function castle08Interval(){
-            localStorage.castle08 = castle08.isDef;
-            clearInterval(castle08INT);
+        var castle5INT;
+        function castle5Interval(){
+            localStorage.castle5 = castle5.isDef;
+            clearInterval(castle5INT);
         }
-        setInterval(castle08Interval, 1000);
-    /*END_CASTLE08_LOCAL*/
+        setInterval(castle5Interval, 1000);
+    /*END_castle5_LOCAL*/
 
-    /*CASTLE09_LOCAL*/
-        if (localStorage.castle09 === "true"){
-            castle09.isDef = localStorage.castle09;
-            castle09DOM.style.opacity = 0.5;
-            castle09DOM.style.pointerEvents = "none";
+    /*castle6_LOCAL*/
+        if (localStorage.castle6 === "true"){
+            castle6.isDef = localStorage.castle6;
+            castle6DOM.style.opacity = 0.5;
+            castle6DOM.style.pointerEvents = "none";
         }
 
-        var castle09INT;
-        function castle09Interval(){
-            localStorage.castle09 = castle09.isDef;
-            clearInterval(castle09INT);
+        var castle6INT;
+        function castle6Interval(){
+            localStorage.castle6 = castle6.isDef;
+            clearInterval(castle6INT);
         }
-        setInterval(castle09Interval, 1000);
-    /*END_CASTLE09_LOCAL*/
+        setInterval(castle6Interval, 1000);
+    /*END_castle6_LOCAL*/
+
+    /*castle7_LOCAL*/
+        if (localStorage.castle7 === "true"){
+            castle7.isDef = localStorage.castle7;
+            castle7DOM.style.opacity = 0.5;
+            castle7DOM.style.pointerEvents = "none";
+        }
+
+        var castle7INT;
+        function castle7Interval(){
+            localStorage.castle7 = castle7.isDef;
+            clearInterval(castle7INT);
+        }
+        setInterval(castle7Interval, 1000);
+    /*END_castle7_LOCAL*/
+
+    /*castle8_LOCAL*/
+        if (localStorage.castle8 === "true"){
+            castle8.isDef = localStorage.castle8;
+            castle8DOM.style.opacity = 0.5;
+            castle8DOM.style.pointerEvents = "none";
+        }
+
+        var castle8INT;
+        function castle8Interval(){
+            localStorage.castle8 = castle8.isDef;
+            clearInterval(castle8INT);
+        }
+        setInterval(castle8Interval, 1000);
+    /*END_castle8_LOCAL*/
+
+    /*castle9_LOCAL*/
+        if (localStorage.castle9 === "true"){
+            castle9.isDef = localStorage.castle9;
+            castle9DOM.style.opacity = 0.5;
+            castle9DOM.style.pointerEvents = "none";
+        }
+
+        var castle9INT;
+        function castle9Interval(){
+            localStorage.castle9 = castle9.isDef;
+            clearInterval(castle9INT);
+        }
+        setInterval(castle9Interval, 1000);
+    /*END_castle9_LOCAL*/
 
     /*CASTLE10_LOCAL*/
         if (localStorage.castle10 === "true"){
@@ -2781,6 +3050,18 @@ document.getElementById('resetGame').addEventListener('click', function(){
 
     if( localStorage.enterLocal === "true" ){
         document.getElementById('enter').style.display="none";
-    }
+    };
     
+    if ( localStorage.timerLocal <= timer ){
+        timer = Number(localStorage.timerLocal);
+        
+    }
+
+    var timerINT;
+    function timerInterval(){
+        localStorage.timerLocal = timer;
+        
+        clearInterval(timerINT);
+    }
+    setInterval(timerInterval, 100);
 /*END_LOCAL_STORAGE_SECTION!*/

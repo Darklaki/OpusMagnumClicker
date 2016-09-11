@@ -34,6 +34,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="item-button" id="startButton">I understand</div>
     </div>  
 </div>
+
     <div class="contact">
     <a id="resetGame">Reset game |</a>
     <a href="https://github.com/Darklaki">GitHub </a> | 
@@ -259,6 +260,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <div class="soldier-button" id="buyOneSoldier">Buy one</div>
                         <div class="soldier-button" id="buyMaxSoldier">Buy max<br />(<a id="howManyToBuy">0</a>)</div>
                     </div>
+                    <div class="buy-army">
+                        <div class="amount-name-module"> <a id="defSoldiersAmount">0</a> Defensive soldiers</div>
+                        <div class="soldier-cost">Cost: <a id="defSoldierCost">0</a></div>
+                        <div class="soldier-cost">Defensive soldier eats <a id="defSoldierEatsPS">0</a> food p/s</div>
+                        <div class="soldier-button" id="buyOneDefSoldier">Buy one</div>
+                        <div class="soldier-button" id="buyMaxDefSoldier">Buy max<br />(<a id="howManyDefToBuy">0</a>)</div>
+                    </div>
                     <div class="item" id="trainingFieldItem">
                         <img class="item-image" src="images/warBuildings/trainingField.png" id="trainField">
                         <div class="item-describe">
@@ -337,7 +345,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                      <div class="castle-block"><img src="images/castles/castle29.png" id="castle29"><div class="info-box" id="castle29IB"><a>Castle with a moat</a><div><a>Chance to win: <a id="castle29chance">0</a>%</a></div></div></div>
                     <div class="castle-block"><img src="images/castles/castle30.png" id="castle30"><div class="info-box" id="castle30IB"><a>Mysterious Teleport</a><div><a>Chance to win: <a id="castle30chance">0</a>%</a></div></div></div>
                 </div>
-            </div>    
+            </div>
+            <div class="barbarians"><a>Next barbarian attack in <b><a id="timer"></a></b> </a> <a> | </a> <a id="barbariansShow"><b>?</b></a>   </div>
+            <div class="info-box" id="barbariansIB"> <div class="row"><a id="predictLess"></a> - <a id="predictMore"> </div><a>barbarians will atack us</a></a></div>
         </div>
         </div>
 
