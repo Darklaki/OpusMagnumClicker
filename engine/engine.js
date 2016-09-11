@@ -1633,7 +1633,7 @@ function barbarianAttack(){
                                 maximumFractionDigits: 2
                                 }) + " gold."); 
     }else{
-        var killHolder = Math.ceil(defSoldier.amount * 0.05);
+        var killHolder = Math.ceil(defSoldier.amount * 0.2);
         defSoldier.amount = defSoldier.amount - killHolder;
         defSoldierAmount.innerHTML = defSoldier.amount;
         
