@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>OpusMagnum Clicker</title>
+<title>OpusMagnum Idler</title>
 <link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
 <link type="text/css" rel="stylesheet" href="css/style.css">
 <meta charset="utf-8">    
@@ -246,7 +246,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
         <!--ARMY/CASTLES_MODULE-->
         <div class="module war-crd" id="warCard">
-            <div class="item-container">
+            <div class="item-container" id="mapScroll">
                 <div class="cards">
                     <div class="army-crd" id="armyCardDOM">Army</div>
                     <div class="castles-crd" id="mapCardDOM">Castles</div>
@@ -258,14 +258,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <div class="soldier-cost">Cost: <a id="soldierCost">0</a></div>
                         <div class="soldier-cost">Soldier eats <a id="soldierEatsPS">0</a> food p/s</div>
                         <div class="soldier-button" id="buyOneSoldier">Buy one</div>
-                        <div class="soldier-button" id="buyMaxSoldier">Buy max<br />(<a id="howManyToBuy">0</a>)</div>
+                        <div class="row centerrow"><div class="soldier-button" id="buyMaxSoldier">Buy<br /></div> <input class="input" id="soldiersInput" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57'> <a id="howManyToBuy"></a></div>
                     </div>
                     <div class="buy-army">
                         <div class="amount-name-module"> <a id="defSoldiersAmount">0</a> Defensive soldiers</div>
                         <div class="soldier-cost">Cost: <a id="defSoldierCost">0</a></div>
                         <div class="soldier-cost">Defensive soldier eats <a id="defSoldierEatsPS">0</a> food p/s</div>
                         <div class="soldier-button" id="buyOneDefSoldier">Buy one</div>
-                        <div class="soldier-button" id="buyMaxDefSoldier">Buy max<br />(<a id="howManyDefToBuy">0</a>)</div>
+                        <div class="row centerrow"><div class="soldier-button" id="buyMaxDefSoldier">Buy<br /></div> <input class="input" id="defSoldiersInput" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57'> <a id="howManyDefToBuy"></a></div>
                     </div>
                     <div class="item" id="trainingFieldItem">
                         <img class="item-image" src="images/warBuildings/trainingField.png" id="trainField">
@@ -313,7 +313,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <div class="info-box" id="equipmentIB">Soldiers will cost 20 gold less now.</div>
                     </div>
                 </div>
-                <div id="mapCard">
+                <div id="mapCard" >
                     <div class="castle-block"><img src="images/castles/castle01.png" id="castle01"><div class="info-box" id="castle01IB"><a>Bonfire</a><div><a>Chance to win: <a id="castle01chance">0</a>%</a></div></div></div>
                     <div class="castle-block"><img src="images/castles/castle02.png" id="castle02"><div class="info-box" id="castle02IB"><a>Small camp</a><div><a>Chance to win: <a id="castle02chance">0</a>%</a></div></div></div>
                     <div class="castle-block"><img src="images/castles/castle03.png" id="castle03"><div class="info-box" id="castle03IB"><a>Camp in the forest</a><div><a>Chance to win: <a id="castle03chance">0</a>%</a></div></div></div>

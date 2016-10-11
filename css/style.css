@@ -135,11 +135,11 @@ body{
 }
 
 #foodAmount {
-    font-size: 20px;
+    font-size: 24px;
 }
 
 #goldAmount {
-    font-size: 20px;
+    font-size: 24px;
 }
 
 #mapCard {
@@ -380,4 +380,26 @@ body{
 .row {
     display: flex;
     flex-direction: row;
+}
+
+.input {
+    height: 20px;
+    width: 70px;
+    margin-left: 6;
+}
+
+.centerrow {
+    align-items: center;
+}
+
+#howManyToBuy {
+    margin-left: 4px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#howManyDefToBuy {
+        margin-left: 4px;
+    text-decoration: underline;
+    cursor: pointer;
 }

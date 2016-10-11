@@ -1,4 +1,5 @@
 /*
+/*
 OpusMagnumClicker 0.3
 --**--
 Authors:
@@ -23,6 +24,20 @@ var clickGoldDOM = document.getElementById('clickGold');
 var goldPS = 0;
 var goldPSDOM = document.getElementById('goldPersec');
 /*END_MEANS_OF_PAYMENT*/
+
+/*FORMATING_NUMBERS_FOO*/
+function formatNum(num) {
+    if (num <= 999) {
+        return num.toFixed(0);
+    }
+    else if (num <= 999999) {
+        return (num / 1000).toFixed(2) + 'k';
+    }
+    else if (num >= 1000000) {
+        return (num / 1000000).toFixed(2) + 'm';
+    }
+}
+/*END_FORMATING_NUMBERS_FOO*/
 
 /*CLICK_FOOs*/
 function clickFood() { //Click foo for food
@@ -54,30 +69,29 @@ function castleAlertBox(text){
     } 
     }, 500);
 }
-
+/*
+.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
+                                */
 /*BUY_FOO*/
 function buy(){
     if(food >= this.foodPrice && gold >= this.goldPrice) {
         gold = gold - this.goldPrice;
-        goldDOM.innerHTML = gold.toFixed(0); 
+        goldDOM.innerHTML = formatNum(gold);
         food = food - this.foodPrice;
-        foodDOM.innerHTML = food.toFixed(0);
+        foodDOM.innerHTML = formatNum(food);
         
         this.amount++;
         
         foodPS = foodPS + this.foodPS;
-        foodPSDOM.innerHTML = foodPS.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+        foodPSDOM.innerHTML = formatNum(foodPS);
         goldPS = goldPS + this.goldPS;
-        goldPSDOM.innerHTML = goldPS.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+        goldPSDOM.innerHTML = formatNum(goldPS);
         
-        this.foodPrice = Math.floor(this.foodPrice * 1.5);
-        this.goldPrice =Math.floor(this.goldPrice * 1.5);
+        this.foodPrice = Math.floor(this.foodPrice * 1.25);
+        this.goldPrice =Math.floor(this.goldPrice * 1.25);
         
     } else{
         
@@ -88,18 +102,27 @@ function buy(){
 /*PS_INCOME*/
 var interval;
 
+var now = new Date();
+var before = new Date();
+
 function perSecIncome(){
+    now = new Date();
+    var elapsedTime = (now.getTime() - before.getTime());
+    
+    if (elapsedTime  >  10){
+        food = food + ((foodPS * 0.01 * 1.4) * Math.floor(elapsedTime/10));
+        foodDOM.innerHTML = formatNum(food);
+        
+        gold = gold + ((goldPS * 0.01 * 1.4) * Math.floor(elapsedTime/10));
+        goldDOM.innerHTML = formatNum(gold);
+    } else{
     food = food + foodPS * 0.01 * 1.4;
-    foodDOM.innerHTML = food.toLocaleString(undefined, {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0
-                        });
+    foodDOM.innerHTML = formatNum(food);
     gold = gold + goldPS * 0.01 * 1.4;
-    goldDOM.innerHTML = gold.toLocaleString(undefined, {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0
-                        });
+    goldDOM.innerHTML = formatNum(gold);
+    }
     clearInterval(interval);
+    before = new Date();
 }
 setInterval(perSecIncome, 10);
 /*END_PS_INCOME*/
@@ -107,9 +130,9 @@ setInterval(perSecIncome, 10);
 /*FOOD_ITEMS*/
 var bakery = {
     amount: 0,
-    foodPrice: 20,
-    goldPrice: 10,
-    foodPS: 1,
+    foodPrice: 12,
+    goldPrice: 6,
+    foodPS: 0.5,
     goldPS: 0,
 };
 var bakeryDOM = document.getElementById('buyBakery');
@@ -122,9 +145,9 @@ document.getElementById('bakeryCostGold').innerHTML = bakery.goldPrice;
 
 var cornFields = {
     amount: 0,
-    foodPrice: 150,
-    goldPrice: 40,
-    foodPS: 5,
+    foodPrice: 110,
+    goldPrice: 30,
+    foodPS: 3,
     goldPS: 0,
 };
 var cornFieldsDOM = document.getElementById('buyCornFields');
@@ -136,7 +159,7 @@ document.getElementById('cornFieldsCostFood').innerHTML = cornFields.foodPrice;
 document.getElementById('cornFieldsCostGold').innerHTML = cornFields.goldPrice;
 
 function cornFieldsShowCheck(){
-if( (food < 100) && (cornFields.amount < 1) ){
+if( (food < 45) && (cornFields.amount < 1) ){
     document.getElementById('cornFields').style.display='none';
 }else{
     document.getElementById('cornFields').style.display='flex';
@@ -147,9 +170,9 @@ setInterval(cornFieldsShowCheck, 400);
 
 var cattle = {
     amount: 0,
-    foodPrice: 800,
-    goldPrice: 200,
-    foodPS: 10,
+    foodPrice: 480,
+    goldPrice: 120,
+    foodPS: 5,
     goldPS: 0,
 };
 var cattleDOM = document.getElementById('buyCattle');
@@ -161,7 +184,7 @@ document.getElementById('cattleCostFood').innerHTML = cattle.foodPrice;
 document.getElementById('cattleCostGold').innerHTML = cattle.goldPrice;
 
 function cattleShowCheck(){
-if( (food < 400) && (cattle.amount < 1) ){
+if( (food < 250) && (cattle.amount < 1) ){
     document.getElementById('cattle').style.display='none';
 }else{
     document.getElementById('cattle').style.display='flex';
@@ -172,9 +195,9 @@ setInterval(cattleShowCheck, 400);
 
 var hunting = {
     amount: 0,
-    foodPrice: 5000,
-    goldPrice: 1400,
-    foodPS: 50,
+    foodPrice: 3000,
+    goldPrice: 840,
+    foodPS: 25,
     goldPS: 0,
 };
 var huntingDOM = document.getElementById('buyHunting');
@@ -186,7 +209,7 @@ document.getElementById('huntingCostFood').innerHTML = hunting.foodPrice;
 document.getElementById('huntingCostGold').innerHTML = hunting.goldPrice;
 
 function huntingShowCheck(){
-if( (food < 3500) && (hunting.amount < 1) ){
+if( (food < 1220) && (hunting.amount < 1) ){
     document.getElementById('hunting').style.display='none';
 }else{
     document.getElementById('hunting').style.display='flex';
@@ -198,9 +221,9 @@ setInterval(huntingShowCheck, 400);
 
 var serfdom = {
     amount: 0,
-    foodPrice: 30000,
-    goldPrice: 9000,
-    foodPS: 150,
+    foodPrice: 18000,
+    goldPrice: 5500,
+    foodPS: 75,
     goldPS: 0,
     
 };
@@ -213,7 +236,7 @@ document.getElementById('serfodomCostFood').innerHTML = serfdom.foodPrice;
 document.getElementById('serfodomCostGold').innerHTML = serfdom.goldPrice;
 
 function serfdomShowCheck(){
-if( (food < 20000) && (serfdom.amount < 1) ){
+if( (food < 7600) && (serfdom.amount < 1) ){
     document.getElementById('serfdom').style.display='none';
 }else{
     document.getElementById('serfdom').style.display='flex';
@@ -224,9 +247,9 @@ setInterval(serfdomShowCheck, 400);
 
 var vegetables = {
     amount: 0,
-    foodPrice: 120000,
-    goldPrice: 27000,
-    foodPS: 700,
+    foodPrice: 72000,
+    goldPrice: 16000,
+    foodPS: 350,
     goldPS: 0
 }
 
@@ -239,7 +262,7 @@ document.getElementById('vegetablesCostFood').innerHTML = vegetables.foodPrice;
 document.getElementById('vegetablesCostGold').innerHTML = vegetables.goldPrice;
 
 function vegetablesShowCheck(){
-if( (food < 80000) && (vegetables.amount < 1) ){
+if( (food < 30000) && (vegetables.amount < 1) ){
     document.getElementById('vegetables').style.display='none';
 }else{
     document.getElementById('vegetables').style.display='flex';
@@ -250,9 +273,9 @@ setInterval(vegetablesShowCheck, 400);
 
 var dairy = {
     amount: 0,
-    foodPrice: 600000,
-    goldPrice: 80000,
-    foodPS: 1500,
+    foodPrice: 360000,
+    goldPrice: 48000,
+    foodPS: 750,
     goldPS: 0
 }
 var dairyDOM = document.getElementById('buyDairy');
@@ -264,7 +287,7 @@ document.getElementById('dairyCostFood').innerHTML = dairy.foodPrice;
 document.getElementById('dairyCostGold').innerHTML = dairy.goldPrice;
 
 function dairyShowCheck(){
-if( (food < 450000) && (dairy.amount < 1) ){
+if( (food < 150000) && (dairy.amount < 1) ){
     document.getElementById('dairy').style.display='none';
 }else{
     document.getElementById('dairy').style.display='flex';
@@ -275,9 +298,9 @@ setInterval(dairyShowCheck, 400);
 
 var tools = {
     amount: 0,
-    foodPrice: 3000000,
-    goldPrice: 240000,
-    foodPS: 5000,
+    foodPrice: 1800000,
+    goldPrice: 144000,
+    foodPS: 2500,
     goldPS: 0
 }
 var toolsDOM = document.getElementById('buyTools');
@@ -289,7 +312,7 @@ document.getElementById('toolsCostFood').innerHTML = tools.foodPrice;
 document.getElementById('toolsCostGold').innerHTML = tools.goldPrice;
 
 function toolsShowCheck(){
-if( (food < 2000000) && (tools.amount < 1) ){
+if( (food < 750000) && (tools.amount < 1) ){
     document.getElementById('tools').style.display='none';
 }else{
     document.getElementById('tools').style.display='flex';
@@ -300,9 +323,9 @@ setInterval(toolsShowCheck, 400);
 
 var fisherman = {
     amount: 0,
-    foodPrice: 6500000,
-    goldPrice: 320000,
-    foodPS: 9000,
+    foodPrice: 3900000,
+    goldPrice: 190000,
+    foodPS: 4500,
     goldPS: 0
 }
 var fishermanDOM = document.getElementById('buyFishermans');
@@ -314,7 +337,7 @@ document.getElementById('fishermansCostFood').innerHTML = fisherman.foodPrice;
 document.getElementById('fishermansCostGold').innerHTML = fisherman.goldPrice;
 
 function fishermanShowCheck(){
-if( (food < 4000000) && (fisherman.amount < 1) ){
+if( (food < 1500000) && (fisherman.amount < 1) ){
     document.getElementById('fisherman').style.display='none';
 }else{
     document.getElementById('fisherman').style.display='flex';
@@ -325,9 +348,9 @@ setInterval(fishermanShowCheck, 400);
 
 var educatedFarmers = {
     amount: 0,
-    foodPrice: 10000000,
-    goldPrice: 500000,
-    foodPS: 12000,
+    foodPrice: 6000000,
+    goldPrice: 300000,
+    foodPS: 6000,
     goldPS: 0
 }
 var educatedFarmersDOM = document.getElementById('buyEducatedFarmers');
@@ -339,7 +362,7 @@ document.getElementById('educatedFarmersCostFood').innerHTML = educatedFarmers.f
 document.getElementById('educatedFarmersCostGold').innerHTML = educatedFarmers.goldPrice;
 
 function educatedFarmersShowCheck(){
-if( (food < 7000000) && (educatedFarmers.amount < 1) ){
+if( (food < 2500000) && (educatedFarmers.amount < 1) ){
     document.getElementById('educatedFarmers').style.display='none';
 }else{
     document.getElementById('educatedFarmers').style.display='flex';
@@ -353,9 +376,9 @@ setInterval(educatedFarmersShowCheck, 400);
 var money = {
     amount: 0,
     foodPrice: 0,
-    goldPrice: 20,
+    goldPrice: 10,
     foodPS: 0,
-    goldPS: 1,
+    goldPS: 0.5,
 }
 var moneyDOM = document.getElementById('buyMoney');
 var moneyFoodPrice = document.getElementById('moneyCostFood');
@@ -367,10 +390,10 @@ document.getElementById('moneyCostGold').innerHTML = money.goldPrice;
 
 var town = {
     amount: 0,
-    foodPrice: 20,
-    goldPrice: 100,
+    foodPrice: 15,
+    goldPrice: 70,
     foodPS: 0,
-    goldPS: 5,
+    goldPS: 3,
 }
 var townDOM = document.getElementById('buyTown');
 var townFoodPrice = document.getElementById('townCostFood');
@@ -381,7 +404,7 @@ document.getElementById('townCostFood').innerHTML = town.foodPrice;
 document.getElementById('townCostGold').innerHTML = town.goldPrice;
 
 function townShowCheck(){
-if( (gold < 70) && (town.amount < 1) ){
+if( (gold < 30) && (town.amount < 1) ){
     document.getElementById('town').style.display='none';
 }else{
     document.getElementById('town').style.display='flex';
@@ -393,9 +416,9 @@ setInterval(townShowCheck, 400);
 var trade = {
     amount: 0,
     foodPrice: 0,
-    goldPrice: 600,
+    goldPrice: 420,
     foodPS: 0,
-    goldPS: 10,
+    goldPS: 5,
 }
 var tradeDOM = document.getElementById('buyTrade');
 var tradeFoodPrice = document.getElementById('tradeCostFood');
@@ -406,7 +429,7 @@ document.getElementById('tradeCostFood').innerHTML = trade.foodPrice;
 document.getElementById('tradeCostGold').innerHTML = trade.goldPrice;
 
 function tradeShowCheck(){
-if( (gold < 400) && (trade.amount < 1) ){
+if( (gold < 200) && (trade.amount < 1) ){
     document.getElementById('trade').style.display='none';
 }else{
     document.getElementById('trade').style.display='flex';
@@ -418,9 +441,9 @@ setInterval(tradeShowCheck, 400);
 var tavern = {
     amount: 0,
     foodPrice: 0,
-    goldPrice: 4000,
+    goldPrice: 2800,
     foodPS: 0,
-    goldPS: 50,
+    goldPS: 25,
 }
 var tavernDOM = document.getElementById('buyTavern');
 var tavernFoodPrice = document.getElementById('tavernCostFood');
@@ -431,7 +454,7 @@ document.getElementById('tavernCostFood').innerHTML = tavern.foodPrice;
 document.getElementById('tavernCostGold').innerHTML = tavern.goldPrice;
 
 function tavernShowCheck(){
-if( (gold < 3000) && (tavern.amount < 1) ){
+if( (gold < 1400) && (tavern.amount < 1) ){
     document.getElementById('tavern').style.display='none';
 }else{
     document.getElementById('tavern').style.display='flex';
@@ -443,9 +466,9 @@ setInterval(tavernShowCheck, 400);
 var entertainment = {
     amount: 0,
     foodPrice: 0,
-    goldPrice: 16000,
+    goldPrice: 11200,
     foodPS: 0,
-    goldPS: 150,
+    goldPS: 75,
 }
 var entertainmentDOM = document.getElementById('buyEntertainment');
 var entertainmentFoodPrice = document.getElementById('entertainmentCostFood');
@@ -456,7 +479,7 @@ document.getElementById('entertainmentCostFood').innerHTML = entertainment.foodP
 document.getElementById('entertainmentCostGold').innerHTML = entertainment.goldPrice;
 
 function entertainmentShowCheck(){
-if( (gold < 11000) && (entertainment.amount < 1) ){
+if( (gold < 5000) && (entertainment.amount < 1) ){
     document.getElementById('entertainment').style.display='none';
 }else{
     document.getElementById('entertainment').style.display='flex';
@@ -468,9 +491,9 @@ setInterval(entertainmentShowCheck, 400);
 var betterEconomy = {
     amount: 0,
     foodPrice: 0,
-    goldPrice: 100000,
+    goldPrice: 70000,
     foodPS: 0,
-    goldPS: 500,
+    goldPS: 250,
 }
 var betterEconomyDOM = document.getElementById('buyBetterEconomy');
 var betterEconomyFoodPrice = document.getElementById('betterEconomyCostFood');
@@ -481,7 +504,7 @@ document.getElementById('betterEconomyCostFood').innerHTML = betterEconomy.foodP
 document.getElementById('betterEconomyCostGold').innerHTML = betterEconomy.goldPrice;
 
 function betterEconomyShowCheck(){
-if( (gold < 110000) && (betterEconomy.amount < 1) ){
+if( (gold < 35000) && (betterEconomy.amount < 1) ){
     document.getElementById('betterEconomy').style.display='none';
 }else{
     document.getElementById('betterEconomy').style.display='flex';
@@ -493,9 +516,9 @@ setInterval(betterEconomyShowCheck, 400);
 var taxes = {
     amount: 0,
     foodPrice: 0,
-    goldPrice: 500000,
+    goldPrice: 350000,
     foodPS: 0,
-    goldPS: 1500,
+    goldPS: 750,
 }
 var taxesDOM = document.getElementById('buyTaxes');
 var taxesFoodPrice = document.getElementById('taxesCostFood');
@@ -506,7 +529,7 @@ document.getElementById('taxesCostFood').innerHTML = taxes.foodPrice;
 document.getElementById('taxesCostGold').innerHTML = taxes.goldPrice;
 
 function taxesShowCheck(){
-if( (gold < 450000) && (taxes.amount < 1) ){
+if( (gold < 175000) && (taxes.amount < 1) ){
     document.getElementById('taxes').style.display='none';
 }else{
     document.getElementById('taxes').style.display='flex';
@@ -518,9 +541,9 @@ setInterval(taxesShowCheck, 400);
 var education = {
     amount: 0,
     foodPrice: 0,
-    goldPrice: 1800000,
+    goldPrice: 1260000,
     foodPS: 0,
-    goldPS: 5000,
+    goldPS: 2500,
 }
 var educationDOM = document.getElementById('buyEducation');
 var educationFoodPrice = document.getElementById('educationCostFood');
@@ -531,7 +554,7 @@ document.getElementById('educationCostFood').innerHTML = education.foodPrice;
 document.getElementById('educationsCostGold').innerHTML = education.goldPrice;
 
 function educationShowCheck(){
-if( (gold < 1400000) && (education.amount < 1) ){
+if( (gold < 630000) && (education.amount < 1) ){
     document.getElementById('education').style.display='none';
 }else{
     document.getElementById('education').style.display='flex';
@@ -543,9 +566,9 @@ setInterval(educationShowCheck, 400);
 var weaponIndustry = {
     amount: 0,
     foodPrice: 0,
-    goldPrice: 4000000,
+    goldPrice: 2800000,
     foodPS: 0,
-    goldPS: 10000
+    goldPS: 5000
 }
 var weaponIndustryDOM = document.getElementById('buyWeaponIndustry');
 var weaponIndustryFoodPrice = document.getElementById('weaponIndustryCostFood');
@@ -556,7 +579,7 @@ document.getElementById('weaponIndustryCostFood').innerHTML = weaponIndustry.foo
 document.getElementById('weaponIndustryCostGold').innerHTML = weaponIndustry.goldPrice;
 
 function weaponIndustryShowCheck(){
-if( (gold < 3500000) && (weaponIndustry.amount < 1) ){
+if( (gold < 1400000) && (weaponIndustry.amount < 1) ){
     document.getElementById('weaponIndustry').style.display='none';
 }else{
     document.getElementById('weaponIndustry').style.display='flex';
@@ -568,9 +591,9 @@ setInterval(weaponIndustryShowCheck, 400);
 var bank = {
     amount: 0,
     foodPrice: 0,
-    goldPrice: 10000000,
+    goldPrice: 7000000,
     foodPS: 0,
-    goldPS: 30000,
+    goldPS: 15000,
 }
 var bankDOM = document.getElementById('buyBank');
 var bankFoodPrice = document.getElementById('bankCostFood');
@@ -581,7 +604,7 @@ document.getElementById('bankCostFood').innerHTML = bank.foodPrice;
 document.getElementById('bankCostGold').innerHTML = bank.goldPrice;
 
 function bankShowCheck(){
-if( (gold < 7000000) && (bank.amount < 1) ){
+if( (gold < 3500000) && (bank.amount < 1) ){
     document.getElementById('bank').style.display='none';
 }else{
     document.getElementById('bank').style.display='flex';
@@ -594,14 +617,8 @@ setInterval(bankShowCheck, 400);
 /*CALL_BUY_FOO*/
 function callBuy(foo, item,itemFoodPriceDOM,itemGoldPriceDOM,itemAmountDOM) {
     foo.call(item);
-    itemFoodPriceDOM.innerHTML = item.foodPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
-    itemGoldPriceDOM.innerHTML = item.goldPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+    itemFoodPriceDOM.innerHTML = formatNum(item.foodPrice);
+    itemGoldPriceDOM.innerHTML = formatNum(item.goldPrice);
     itemAmountDOM.textContent = item.amount;
 }
 /*END_CALL_BUY_FOO*/
@@ -612,9 +629,9 @@ function greyButton(item, DOM){
     }, 100);
 };
 /*FOOD_ITEMS_CALL*/
-bakeryDOM.addEventListener('click', function(){
+bakeryDOM.addEventListener('click', function () {
     callBuy(buy, bakery, bakeryFoodPrice, bakeryGoldPrice, bakeryAmount);
-    greyButton(bakery, bakeryDOM);
+    greyButton(bakery, bakeryDOM)
 });
 
 cornFieldsDOM.addEventListener('click', function(){
@@ -724,7 +741,10 @@ if ( gold >= building.cost ){
     
     
     soldier.eatFoodPS = soldier.eatFoodPS - building.soldierEatsPS;
-    soldierEatsPS.innerHTML = soldier.eatFoodPS.toFixed(0);
+    soldierEatsPS.innerHTML = soldier.eatFoodPS.toLocaleString(undefined,{
+                                minimumFractionDigits: 1,
+                                maximumFractionDigits: 1
+                                });
     buildingDOM.style.display = "none";
     gold = gold - building.cost;
 }else{
@@ -741,10 +761,7 @@ var trainingField = {
 var trainingFieldDOM = document.getElementById('buyTrainingField');
 var trainingFieldCost = document.getElementById('trainingFieldCost');
 var trainingFieldItem = document.getElementById('trainingFieldItem');
-trainingFieldCost.innerHTML = trainingField.cost.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+trainingFieldCost.innerHTML = formatNum(trainingField.cost);
 trainingFieldDOM.addEventListener('click', function(){
     buyWarBuilding(trainingField, trainingFieldItem);
      if ( gold >= trainingField.cost ){
@@ -763,10 +780,7 @@ var barracks = {
 var barracksDOM = document.getElementById('buyBarracks');
 var barracksCost = document.getElementById('barracksCost');
 var barracksItem = document.getElementById('barracksItem');
-barracksCost.innerHTML = barracks.cost.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+barracksCost.innerHTML = formatNum(barracks.cost);
 barracksDOM.addEventListener('click', function(){
     buyWarBuilding(barracks, barracksItem);
     if ( gold >= barracks.cost ){
@@ -785,10 +799,7 @@ var tactics = {
 var tacticsDOM = document.getElementById('buyTactics');
 var tacticsCost = document.getElementById('tacticsCost');
 var tacticsItem = document.getElementById('tacticsItem');
-tacticsCost.innerHTML = tactics.cost.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+tacticsCost.innerHTML = formatNum(tactics.cost);
 tacticsDOM.addEventListener('click', function(){
     buyWarBuilding(tactics, tacticsItem);
     if ( gold >= tactics.cost ){
@@ -817,10 +828,7 @@ var training = {
 var trainingDOM = document.getElementById('buyTraining');
 var trainingCost = document.getElementById('trainingCost');
 var trainingItem = document.getElementById('trainingItem');
-trainingCost.innerHTML = training.cost.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+trainingCost.innerHTML = formatNum(training.cost);
 trainingDOM.addEventListener('click', function(){
     buyWarBuilding(training, trainingItem);
     if ( gold >= training.cost ){
@@ -849,10 +857,7 @@ var equipment = {
 var equipmentDOM = document.getElementById('buyEquipment');
 var equipmentCost = document.getElementById('equipmentCost');
 var equipmentItem = document.getElementById('equipmentItem');
-equipmentCost.innerHTML = equipment.cost.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+equipmentCost.innerHTML = formatNum(equipment.cost);
 
 equipmentDOM.addEventListener('click', function(){
     buyWarBuilding(equipment, equipmentItem);
@@ -877,26 +882,31 @@ setInterval(equipmentShowCheck, 400);
 var soldier = {
     amount: 0,
     price: 400,
-    eatFoodPS: 1
+    eatFoodPS: 1,
+    manpower: 1
 };
 var soldierAmount = document.getElementById('soldiersAmount');
 var soldierGoldPrice = document.getElementById('soldierCost');
 var soldierBuyOne = document.getElementById('buyOneSoldier');
 var soldierBuyMax = document.getElementById('buyMaxSoldier');
 var soldierEatsPS = document.getElementById('soldierEatsPS');
+var soldierInputDOM = document.getElementById('soldiersInput');
 soldierGoldPrice.innerHTML = soldier.price;
 soldierEatsPS.innerHTML = soldier.eatFoodPS;
 
 function buyOneSoldier(){
     if(gold >= soldier.price){
         gold = gold - soldier.price;
-        goldDOM.innerHTML = gold;
+        goldDOM.innerHTML = formatNum(gold);
         
         foodPS = foodPS - soldier.eatFoodPS;
-        foodPSDOM.innerHTML = foodPS;
+        foodPSDOM.innerHTML = formatNum(foodPS);
         
         soldier.amount++;
-        soldierAmount.innerHTML = soldier.amount;
+        soldierAmount.innerHTML = soldier.amount.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
     }else{
         greyButton(soldier,soldierBuyOne )
     }
@@ -907,18 +917,26 @@ function buyMaxSoldier(){
     if(gold >= soldier.price){
         if ( foodPS > (gold / soldier.price).toFixed(0) ) {
             
-            var howManySoldiers = Math.floor(gold / soldier.price);
-            soldier.amount = soldier.amount + howManySoldiers;
+            var howManySoldiers = Number(soldierInputDOM.value);
+            if ( howManySoldiers * soldier.price > gold ||  Number(soldierInputDOM.value) < 0){
+                greyButton(soldier, soldierBuyMax)
+            } else {
+                
+                soldier.amount = soldier.amount + howManySoldiers;
             soldierAmount.innerHTML = soldier.amount;
         
             foodPS = foodPS - (howManySoldiers * soldier.eatFoodPS);
-            foodPSDOM.innerHTML = foodPS;
+            foodPSDOM.innerHTML = formatNum(foodPS);
         
             gold = gold - (howManySoldiers * soldier.price);
-            goldDOM.innerHTML = gold;
+            goldDOM.innerHTML = formatNum(gold);
+                
+            soldierInputDOM.value = '';
+            }
             
         }else{
-            var howManySoldiers = Math.floor(foodPS / soldier.eatFoodPS);
+            var howManySoldiers = Number(soldierInputDOM.value);
+            if ( howManySoldiers * soldier.eatFoodPS <= foodPS){
             soldier.amount = soldier.amount + howManySoldiers;
             soldierAmount.innerHTML = soldier.amount;
         
@@ -927,6 +945,11 @@ function buyMaxSoldier(){
         
             gold = gold - (howManySoldiers * soldier.price);
             goldDOM.innerHTML = gold;
+            soldierInputDOM.value = '';
+            } else {
+                greyButton(soldier, soldierBuyMax);
+            }
+            
         }
        
     }else{
@@ -934,6 +957,8 @@ function buyMaxSoldier(){
     }
 }
 soldierBuyMax.addEventListener('click', buyMaxSoldier);
+
+
 
 var starvingSoldiersINT;
 function starvingSoldierdInterval() {
@@ -968,15 +993,33 @@ function warningBuyMaxInterval(){
     var howManySoldiers;
     if ( foodPS > (gold / soldier.price).toFixed(0) ) {
         howManySoldiers = Math.floor(gold / soldier.price);
-        howManyToBuyDOM.innerHTML = howManySoldiers; 
+        howManyToBuyDOM.innerHTML = howManySoldiers.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                }); 
     }else{
         howManySoldiers = Math.floor(foodPS / soldier.eatFoodPS);
-        howManyToBuyDOM.innerHTML = howManySoldiers;
+        howManyToBuyDOM.innerHTML = howManySoldiers.toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                        });;
     };
     
     clearInterval(warningBuyMaxINT);
 }
 setInterval(warningBuyMaxInterval, 400);
+
+howManyToBuyDOM.addEventListener('click', function () {
+    var howManySoldiers;
+    if (foodPS > (gold / soldier.price).toFixed(0)) {
+        howManySoldiers = Math.floor(gold / soldier.price);
+        document.getElementById('soldiersInput').value = String(howManySoldiers);
+    }
+    else {
+        howManySoldiers = Math.floor(foodPS / soldier.eatFoodPS);
+        document.getElementById('soldiersInput').value = String(howManySoldiers);
+    }
+});
 /*END_SOLDIERS*/
 
 /*DEF_SOLDIERS*/
@@ -991,6 +1034,7 @@ var defSoldierGoldPrice = document.getElementById('defSoldierCost');
 var defSoldierBuyOne = document.getElementById('buyOneDefSoldier');
 var defSoldierBuyMax = document.getElementById('buyMaxDefSoldier');
 var defSoldierEatsPS = document.getElementById('defSoldierEatsPS');
+var defSoldierInputDOM = document.getElementById('defSoldiersInput');
 defSoldierGoldPrice.innerHTML = defSoldier.price;
 defSoldierEatsPS.innerHTML = defSoldier.eatFoodPS;
 
@@ -1016,7 +1060,10 @@ function buyMaxDefSoldier() {
     if(gold >= defSoldier.price){
         if ( foodPS > (gold / defSoldier.price).toFixed(0) ) {
             
-            var howManyDefSoldiers = Math.floor(gold / defSoldier.price);
+            var howManyDefSoldiers = Number(defSoldierInputDOM.value);
+            if ( howManyDefSoldiers * defSoldier.price > gold || Number(defSoldierInputDOM.value) < 0) {
+                 greyButton(soldier, defSoldierBuyMax)
+            }else{
             defSoldier.amount = defSoldier.amount + howManyDefSoldiers;
             defSoldierAmount.innerHTML = defSoldier.amount;
         
@@ -1025,9 +1072,13 @@ function buyMaxDefSoldier() {
         
             gold = gold - (howManyDefSoldiers * defSoldier.price);
             goldDOM.innerHTML = gold;
-            
+            defSoldierInputDOM.value = '';
+            }
         }else{
-            var howManyDefSoldiers = Math.floor(foodPS / defSoldier.eatFoodPS);
+            var howManyDefSoldiers = Number(defSoldierInputDOM.value);
+            if ( howManyDefSoldiers * defSoldier.eatFoodPS > foodPS) {
+                 greyButton(soldier, defSoldierBuyMax)
+            }else{
             defSoldier.amount = defSoldier.amount + howManyDefSoldiers;
             defSoldierAmount.innerHTML = defSoldier.amount;
         
@@ -1036,6 +1087,8 @@ function buyMaxDefSoldier() {
         
             gold = gold - (howManyDefSoldiers * defSoldier.price);
             goldDOM.innerHTML = gold;
+            defSoldierInputDOM.value = '';
+            }
         }
        
     }else{
@@ -1052,17 +1105,33 @@ function warningDefBuyMaxInterval(){
     var howManyDefSoldiers;
     if ( foodPS > (gold / defSoldier.price).toFixed(0) ) {
         howManyDefSoldiers = Math.floor(gold / defSoldier.price);
-        howManyDefToBuy.innerHTML = howManyDefSoldiers; 
+        howManyDefToBuy.innerHTML = howManyDefSoldiers.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
     }else{
         howManyDefSoldiers = Math.floor(foodPS / defSoldier.eatFoodPS);
-        howManyDefToBuy.innerHTML = howManyDefSoldiers;
+        howManyDefToBuy.innerHTML = howManyDefSoldiers.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
     };
     
     clearInterval(warningDefBuyMaxINT);
 }
 setInterval(warningDefBuyMaxInterval, 400);
 
-
+howManyDefToBuy.addEventListener('click', function () {
+    var howManyDefSoldiers;
+    if (foodPS > (gold / defSoldier.price).toFixed(0)) {
+        howManyDefSoldiers = Math.floor(gold / defSoldier.price);
+        document.getElementById('defSoldiersInput').value = String(howManyDefSoldiers);
+    }
+    else {
+        howManyDefSoldiers = Math.floor(foodPS / defSoldier.eatFoodPS);
+        document.getElementById('defSoldiersInput').value = String(howManyDefSoldiers);
+    }
+});
 /*END_DEF_SOLDIERS*/
 
 /*DOM_ACTIONS*/
@@ -1076,16 +1145,27 @@ var mapCard = document.getElementById('mapCard');
 function cardSwitch(show, hide){
     show.style.display = 'flex';
     hide.style.display = 'none';
-}
+};
 
+var scrollMapDOM = document.getElementById('mapScroll');
+var mapScroll;
 armyCardDOM.addEventListener('click', function(){
-    cardSwitch(armyCard, mapCard)
+    cardSwitch(armyCard, mapCard);
 });
 
 mapCardDOM.addEventListener('click', function(){
-    cardSwitch(mapCard, armyCard)
+    cardSwitch(mapCard, armyCard);
+    scrollMapDOM.scrollTop = mapScroll;
 });
 
+scrollMapDOM.addEventListener('scroll', function(){
+    if ( armyCard.style.display === "none" ) {
+        mapScroll = scrollMapDOM.scrollTop;
+    } else{
+        
+    }
+    
+}, true);
 
 var enterBox = {
     is: false
@@ -1109,7 +1189,7 @@ function checkBarbarians(less, more) {
         }
         
     }
-    power_ = power_ * 10 + Math.floor(goldPS * 0.05);
+    power_ = power_ * 20 + Math.floor(goldPS * 0.05);
 
     if (power_ - 50 < 0){
         less.innerHTML = 0;
@@ -1128,38 +1208,50 @@ document.getElementById('barbariansShow').addEventListener('mouseover', function
 
 /*CASTLES*/
 function attackCastle(castle, castleManpower, castleDOM){
-    var chance = soldier.amount / castleManpower;
+    var chance = (soldier.amount  * soldier.manpower) / castleManpower;
     var shoot = Number(Math.random().toFixed(2));
     if (chance < shoot){
         var killHolder = Math.floor((shoot - chance) * soldier.amount);
         soldier.amount = soldier.amount - killHolder;
-        soldierAmount.innerHTML = soldier.amount;
+        soldierAmount.innerHTML = soldier.amount.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });;
         
         foodPS = foodPS + (killHolder * soldier.eatFoodPS);
-        foodPSDOM.innerHTML = foodPS;
+        foodPSDOM.innerHTML = formatNum(foodPS);
         
-        castleAlertBox("YOU LOST! " + killHolder + " soldiers died...");
+        castleAlertBox("YOU LOST! " + killHolder.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                }) + " soldiers died...");
     } else{
         var killHolder = Math.floor(castleManpower / 10);
-        if (killHolder > soldier.amount) {
+        if (killHolder > (soldier.amount * soldier.manpower)) {
             food = food + (soldier.eatFoodPS * soldier.amount) 
             soldier.amount = 0;
             soldierAmount.innerHTML = soldier.amount;
              soldier.amount = soldier.amount - killHolder;
-            soldierAmount.innerHTML = soldier.amount;
+            soldierAmount.innerHTML = soldier.amount.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
         
             foodPS = foodPS + (killHolder * soldier.eatFoodPS);
-            foodPSDOM.innerHTML = foodPS;
+            foodPSDOM.innerHTML = formatNum(foodPS);
         
             castle.isDef = true;
         
             foodPS = foodPS + castle.addFoodPS;
-            foodPSDOM.innerHTML = foodPS;
+            foodPSDOM.innerHTML = formatNum(foodPS);
         
             goldPS = goldPS + castle.addGoldPS;
-            goldPSDOM.innerHTML = goldPS;
+            goldPSDOM.innerHTML = formatNum(goldPS);
         
-            castleAlertBox("YOU WON! " + killHolder + " soldiers died... you gained " + castle.addFoodPS + " food per second and " + castle.addGoldPS + " gold per second")
+            castleAlertBox("YOU WON! " + killHolder.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                }) + " soldiers died... you gained " + formatNum(castle.addFoodPS) + " food per second and " + formatNum(castle.addGoldPS) + " gold per second")
             castleDOM.style.opacity = 0.5;
             castleDOM.style.pointerEvents = "none";
         } else{
@@ -1167,17 +1259,20 @@ function attackCastle(castle, castleManpower, castleDOM){
             soldierAmount.innerHTML = soldier.amount;
         
             foodPS = foodPS + (killHolder * soldier.eatFoodPS);
-            foodPSDOM.innerHTML = foodPS;
+            foodPSDOM.innerHTML = formatNum(foodPS);
         
             castle.isDef = true;
         
             foodPS = foodPS + castle.addFoodPS;
-            foodPSDOM.innerHTML = foodPS;
+            foodPSDOM.innerHTML = formatNum(foodPS);
         
             goldPS = goldPS + castle.addGoldPS;
-            goldPSDOM.innerHTML = goldPS;
+            goldPSDOM.innerHTML = formatNum(goldPS);
         
-            castleAlertBox("YOU WON! " + killHolder + " soldiers died... you gained " + castle.addFoodPS + " food per second and " + castle.addGoldPS + " gold per second")
+            castleAlertBox("YOU WON! " + killHolder.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                }) + " soldiers died... you gained " + formatNum(castle.addFoodPS) + " food per second and " + formatNum(castle.addGoldPS) + " gold per second")
             castleDOM.style.opacity = 0.5;
             castleDOM.style.pointerEvents = "none";
         }
@@ -1603,44 +1698,47 @@ function barbarianChance() {
 };
 
 function barbarianAttack(){
-    power = power * 10 + Math.floor(goldPS * 0.05);
+    power = power * 20 + Math.floor(goldPS * 0.05);
     var chance = Number(defSoldier.amount) / Number(power);
     var szut = Number(Math.random().toFixed(2));
     if (chance < szut) {
-        var killHolder =  Math.floor(defSoldier.amount * (Math.random() * 0.50) + 0.20);
+        var killHolder =  Math.floor(defSoldier.amount * (Math.random() * 0.80) + 0.20);
         defSoldier.amount = defSoldier.amount - killHolder;
-        defSoldierAmount.innerHTML = defSoldier.amount;
+        defSoldierAmount.innerHTML = defSoldier.amount.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });;
         
         foodPS = foodPS + (defSoldier.eatFoodPS * killHolder);
-        foodPSDOM.innerHTML = foodPS;
+        foodPSDOM.innerHTML = formatNum(foodPS);
         
-        var stealFood = Math.floor(food * (Math.random() * 0.20) + 0.10);
+        var stealFood = Math.floor(food * (Math.random() * 0.40) + 0.10);
         food = food - stealFood;
-        foodDOM.innerHTML = food;
+        foodDOM.innerHTML = formatNum(food);
         
-        var stealGold =  Math.floor(gold * (Math.random() * 0.20) + 0.10);
+        var stealGold =  Math.floor(gold * (Math.random() * 0.85) + 0.10);
         gold = gold - stealGold;
-        goldDOM.innerHTML = gold;
+        goldDOM.innerHTML = formatNum(gold);
         
-        castleAlertBox( "Barbarians WON! You lost " + killHolder.toLocaleString(undefined, {
+        castleAlertBox( "Barbarians WON! You lost " + killHolder.toLocaleString(undefined,{
                                 minimumFractionDigits: 0,
                                 maximumFractionDigits: 2
-                                }) + " defensive soldiers, " + stealFood.toLocaleString(undefined, {
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                }) + " food and " + stealGold.toLocaleString(undefined, {
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                }) + " gold."); 
+                                }) + " defensive soldiers, " +  formatNum(stealFood) + " food and " +  formatNum(stealGold) + " gold."); 
     }else{
-        var killHolder = Math.ceil(defSoldier.amount * 0.2);
+        var killHolder = Math.ceil(defSoldier.amount * 0.35);
         defSoldier.amount = defSoldier.amount - killHolder;
-        defSoldierAmount.innerHTML = defSoldier.amount;
+        defSoldierAmount.innerHTML = defSoldier.amount.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });;
         
         foodPS = foodPS + (defSoldier.eatFoodPS * killHolder);
-        foodPSDOM.innerHTML = foodPS;
+        foodPSDOM.innerHTML = formatNum(foodPS);
         
-        castleAlertBox("Barbarians LOST, but " + killHolder + " defensive soldiers died...");
+        castleAlertBox("Barbarians LOST, but " + killHolder.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                }) + " defensive soldiers died...");
     }
     
 }
@@ -1691,15 +1789,9 @@ timerF(360, document.getElementById("timer"));
         var cookieINT;
         function cookieInterval(){
             localStorage.foodCookie = food;
-            foodDOM.innerHTML = food.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0
-                                });
+            foodDOM.innerHTML = formatNum(food);
             localStorage.goldCookie = gold;
-            goldDOM.innerHTML = gold.toLocaleString(undefined, {
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0
-                                });
+            goldDOM.innerHTML = formatNum(gold);
             clearInterval(cookieINT);
         };
         setInterval(cookieInterval, 1000);
@@ -1714,10 +1806,7 @@ timerF(360, document.getElementById("timer"));
         var foodPSINT;
         function foodPSInterval(){
             localStorage.foodPS = foodPS;
-            foodPSDOM.innerHTML = foodPS.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            foodPSDOM.innerHTML = formatNum(foodPS);
             clearInterval(foodPSINT);
         }
         setInterval(foodPSInterval, 1000);
@@ -1726,16 +1815,13 @@ timerF(360, document.getElementById("timer"));
     /*GOLD_PS_LOCAL*/
         if( localStorage.goldPS >= goldPS ){
             goldPS = Number(localStorage.goldPS);
-            goldPSDOM.innerHTML = goldPS;
+            goldPSDOM.innerHTML = formatNum(goldPS);
         }
     
         var goldPSINT;
         function goldPSInterval(){
             localStorage.goldPS = goldPS;
-            goldPSDOM.innerHTML = goldPS.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            goldPSDOM.innerHTML = formatNum(goldPS);
             clearInterval(goldPSINT);
         }
         setInterval(goldPSInterval, 1000);
@@ -1744,13 +1830,19 @@ timerF(360, document.getElementById("timer"));
     /*SOLDIERS_LOCAL*/
         if( localStorage.soldierAmount >= soldier.amount ){
             soldier.amount = Number(localStorage.soldierAmount);
-            soldierAmount.innerHTML = soldier.amount;
+            soldierAmount.innerHTML = soldier.amount.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
         }
 
         var soldierINT;
         function soldierInterval(){
             localStorage.soldierAmount = soldier.amount;
-            soldierAmount.innerHTML = soldier.amount;
+            soldierAmount.innerHTML = soldier.amount.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
             clearInterval(soldierINT);
         }
         setInterval(soldierInterval, 1000);
@@ -1789,13 +1881,19 @@ timerF(360, document.getElementById("timer"));
     /*DEF_SOLDIERS_LOCAL*/
         if ( localStorage.defSoldiersAmount >= defSoldier.amount ){
             defSoldier.amount = Number(localStorage.defSoldiersAmount);
-            defSoldierAmount.innerHTML = defSoldier.amount;
+            defSoldierAmount.innerHTML = defSoldier.amount.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
         }
 
         var defSoldiersINT;
         function defSoldiersInterval() {
             localStorage.defSoldiersAmount = defSoldier.amount;
-            defSoldierAmount.innerHTML = defSoldier.amount;
+            defSoldierAmount.innerHTML = defSoldier.amount.toLocaleString(undefined,{
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                                });
             clearInterval(defSoldiersINT);
         }
         setInterval(defSoldiersInterval, 1000);
@@ -1873,16 +1971,10 @@ timerF(360, document.getElementById("timer"));
         cornFieldsAmount.innerHTML = cornFields.amount;
             
         cornFields.foodPrice = Number(localStorage.cornFieldsFoodPrice);
-        cornFieldsFoodPrice.innerHTML = cornFields.foodPrice.toLocaleString(undefined, {
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+        cornFieldsFoodPrice.innerHTML = formatNum(cornFields.foodPrice);
             
         cornFields.goldPrice = Number(localStorage.cornFieldsGoldPrice);
-        cornFieldsGoldPrice.innerHTML = cornFields.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+        cornFieldsGoldPrice.innerHTML = formatNum(cornFields.goldPrice);
         }
         
         var cornFieldsINT;
@@ -1891,16 +1983,10 @@ timerF(360, document.getElementById("timer"));
             cornFieldsAmount.innerHTML = cornFields.amount;
             
             localStorage.cornFieldsFoodPrice = cornFields.foodPrice;
-            cornFieldsFoodPrice.innerHTML = cornFields.foodPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });;
+            cornFieldsFoodPrice.innerHTML = formatNum(cornFields.foodPrice);
             
             localStorage.cornFieldsGoldPrice = cornFields.goldPrice;
-            cornFieldsGoldPrice.innerHTML = cornFields.goldPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });;
+            cornFieldsGoldPrice.innerHTML = formatNum(cornFields.goldPrice);
             clearInterval(cornFieldsINT);
         }
         setInterval(cornFieldsInterval, 1000);
@@ -1913,10 +1999,10 @@ timerF(360, document.getElementById("timer"));
         cattleAmount.innerHTML = cattle.amount;
             
         cattle.foodPrice = Number(localStorage.cattleFoodPrice);
-        cattleFoodPrice.innerHTML = cattle.foodPrice;
+        cattleFoodPrice.innerHTML = formatNum(cattle.foodPrice);
             
         cattle.goldPrice = Number(localStorage.cattleGoldPrice);
-        cattleGoldPrice.innerHTML = cattle.goldPrice;
+        cattleGoldPrice.innerHTML = formatNum(cattle.goldPrice);
         }
     
         var cattleINT;
@@ -1925,16 +2011,10 @@ timerF(360, document.getElementById("timer"));
             cattleAmount.innerHTML = cattle.amount;
             
             localStorage.cattleFoodPrice = cattle.foodPrice;
-            cattleFoodPrice.innerHTML = cattle.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });;
+            cattleFoodPrice.innerHTML = formatNum(cattle.foodPrice);
             
             localStorage.cattleGoldPrice = cattle.goldPrice;
-            cattleGoldPrice.innerHTML = cattle.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });;
+            cattleGoldPrice.innerHTML = formatNum(cattle.goldPrice);
             clearInterval(cattleINT);
         }
         setInterval(cattleInterval, 1000);
@@ -1944,13 +2024,13 @@ timerF(360, document.getElementById("timer"));
         if ( (localStorage.huntingAmount >= hunting.amount) || (localStorage.huntingFoodPrice >= hunting.foodPrice) || (localStorage.huntingGoldPrice >= hunting.goldPrice) ) {
         
         hunting.amount = Number(localStorage.huntingAmount);    
-        huntingAmount.innerHTML = hunting.amount;
+        huntingAmount.innerHTML = formatNum(hunting.amount);
             
         hunting.foodPrice = Number(localStorage.huntingFoodPrice);
-        huntingFoodPrice.innerHTML = hunting.foodPrice;;
+        huntingFoodPrice.innerHTML = formatNum(hunting.foodPrice);
             
         hunting.goldPrice = Number(localStorage.huntingGoldPrice);
-        huntingGoldPrice.innerHTML = hunting.goldPrice;
+        huntingGoldPrice.innerHTML = formatNum(hunting.goldPrice);
         }
 
         var huntingINT;
@@ -1959,16 +2039,10 @@ timerF(360, document.getElementById("timer"));
             huntingAmount.innerHTML = hunting.amount;
             
             localStorage.huntingFoodPrice = hunting.foodPrice;
-            huntingFoodPrice.innerHTML = hunting.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            huntingFoodPrice.innerHTML = formatNum(hunting.foodPrice);
             
             localStorage.huntingGoldPrice = hunting.goldPrice;
-            huntingGoldPrice.innerHTML = hunting.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            huntingGoldPrice.innerHTML = formatNum(hunting.goldPrice);
             clearInterval(huntingINT);
         }
         setInterval(huntingInterval, 1000);
@@ -1981,10 +2055,10 @@ timerF(360, document.getElementById("timer"));
         serfdomAmount.innerHTML = serfdom.amount;
             
         serfdom.foodPrice = Number(localStorage.serfdomFoodPrice); 
-        serfdomFoodPrice.innerHTML = serfdom.foodPrice;
+        serfdomFoodPrice.innerHTML = formatNum(serfdom.foodPrice);
             
         serfdom.goldPrice = Number(localStorage.serfdomGoldPrice);
-        serfdomGoldPrice.innerHTML = serfdom.goldPrice;
+        serfdomGoldPrice.innerHTML = formatNum(serfdom.goldPrice);
         }
     
         var serfdomINT;
@@ -1993,16 +2067,10 @@ timerF(360, document.getElementById("timer"));
             serfdomAmount.innerHTML = serfdom.amount;
             
             localStorage.serfdomFoodPrice = serfdom.foodPrice;
-            serfdomFoodPrice.innerHTML = serfdom.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            serfdomFoodPrice.innerHTML = formatNum(serfdom.foodPrice);
             
             localStorage.serfdomGoldPrice = serfdom.goldPrice;
-            serfdomGoldPrice.innerHTML = serfdom.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            serfdomGoldPrice.innerHTML = formatNum(serfdom.goldPrice);
             clearInterval(serfdomINT);
         }
         setInterval(serfdomInterval, 1000);
@@ -2015,10 +2083,10 @@ timerF(360, document.getElementById("timer"));
             vegetablesAmount.innerHTML = vegetables.amount;
             
             vegetables.foodPrice = Number(localStorage.vegetablesFoodPrice);
-            vegetablesFoodPrice.innerHTML = vegetables.foodPrice;
+            vegetablesFoodPrice.innerHTML = formatNum(vegetables.foodPrice);
             
             vegetables.goldPrice = Number(localStorage.vegetablesGoldPrice);
-            vegetablesGoldPrice.innerHTML = vegetables.goldPrice;
+            vegetablesGoldPrice.innerHTML = formatNum(vegetables.goldPrice);
         }
 
         var vegetablesINT;
@@ -2027,16 +2095,10 @@ timerF(360, document.getElementById("timer"));
             vegetablesAmount.innerHTML = vegetables.amount;
             
             localStorage.vegetablesFoodPrice = vegetables.foodPrice;
-            vegetablesFoodPrice.innerHTML = vegetables.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            vegetablesFoodPrice.innerHTML = formatNum(vegetables.foodPrice);
             
             localStorage.vegetablesGoldPrice = vegetables.goldPrice;
-            vegetablesGoldPrice.innerHTML = vegetables.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            vegetablesGoldPrice.innerHTML = formatNum(vegetables.goldPrice);
             clearInterval(vegetablesINT);
         }
         setInterval(vegetablesInterval, 1000);
@@ -2049,10 +2111,10 @@ timerF(360, document.getElementById("timer"));
             dairyAmount.innerHTML = dairy.amount;
             
             dairy.foodPrice = Number(localStorage.dairyFoodPrice);
-            dairyFoodPrice.innerHTML = dairy.foodPrice;
+            dairyFoodPrice.innerHTML = formatNum(dairy.foodPrice);
             
             dairy.goldPrice = Number(localStorage.dairyGoldPrice);
-            dairyGoldPrice.innerHTML = dairy.goldPrice;
+            dairyGoldPrice.innerHTML = formatNum(dairy.goldPrice);
         }
     
         var dairyINT;
@@ -2061,16 +2123,10 @@ timerF(360, document.getElementById("timer"));
             dairyAmount.innerHTML = dairy.amount;
             
             localStorage.dairyFoodPrice = dairy.foodPrice;
-            dairyFoodPrice.innerHTML = dairy.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            dairyFoodPrice.innerHTML = formatNum(dairy.foodPrice);
             
             localStorage.dairyGoldPrice = dairy.goldPrice;
-            dairyGoldPrice.innerHTML = dairy.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            dairyGoldPrice.innerHTML = formatNum(dairy.goldPrice);
             clearInterval(dairyINT);
         }
         setInterval(dairyInterval, 1000);
@@ -2083,10 +2139,10 @@ timerF(360, document.getElementById("timer"));
             toolsAmount.innerHTML = tools.amount;
             
             tools.foodPrice = Number(localStorage.toolsFoodPrice);
-            toolsFoodPrice.innerHTML = tools.foodPrice;
+            toolsFoodPrice.innerHTML = formatNum(tools.foodPrice);
             
             tools.goldPrice = Number(localStorage.toolsGoldPrice);
-            toolsGoldPrice.innerHTML = tools.goldPrice;
+            toolsGoldPrice.innerHTML = formatNum(tools.goldPrice);
         }
         
         var toolsINT;
@@ -2096,16 +2152,10 @@ timerF(360, document.getElementById("timer"));
             toolsAmount.innerHTML = tools.amount;
             
             localStorage.toolsFoodPrice = tools.foodPrice;
-            toolsFoodPrice.innerHTML = tools.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            toolsFoodPrice.innerHTML = formatNum(tools.foodPrice);
             
             localStorage.toolsGoldPrice = tools.goldPrice;
-            toolsGoldPrice.innerHTML = tools.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            toolsGoldPrice.innerHTML = formatNum(tools.goldPrice);
             clearInterval(toolsINT);
         }
         setInterval(toolsInterval, 1000);
@@ -2118,10 +2168,10 @@ timerF(360, document.getElementById("timer"));
             fishermanAmount.innerHTML = fisherman.amount;
             
             fisherman.foodPrice = Number(localStorage.fishermanFoodPrice);
-            fishermanFoodPrice.innerHTML = fisherman.foodPrice;
+            fishermanFoodPrice.innerHTML = formatNum(fisherman.foodPrice);
             
             fisherman.goldPrice = Number(localStorage.fishermanGoldPrice);
-            fishermanGoldPrice.innerHTML = fisherman.goldPrice;
+            fishermanGoldPrice.innerHTML = formatNum(fisherman.goldPrice);
         }
 
         var fishermanINT;
@@ -2131,16 +2181,10 @@ timerF(360, document.getElementById("timer"));
             fishermanAmount.innerHTML = fisherman.amount;
             
             localStorage.fishermanFoodPrice = fisherman.foodPrice;
-            fishermanFoodPrice.innerHTML = fisherman.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            fishermanFoodPrice.innerHTML = formatNum(fisherman.foodPrice);
             
             localStorage.fishermanGoldPrice = fisherman.goldPrice;
-            fishermanGoldPrice.innerHTML = fisherman.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            fishermanGoldPrice.innerHTML = formatNum(fisherman.goldPrice);
             clearInterval(fishermanINT);
         }
         setInterval(fishermanInterval, 1000);
@@ -2150,13 +2194,13 @@ timerF(360, document.getElementById("timer"));
         if( (localStorage.educatedFarmersAmount >= educatedFarmers.amount) || (localStorage.educatedFarmersFoodPrice >= educatedFarmers.foodPrice) || (localStorage.educatedFarmersGoldPrice >= educatedFarmers.goldPrice) ){
             
             educatedFarmers.amount = Number(localStorage.educatedFarmersAmount);
-            educatedFarmersAmount.innerHTML = educatedFarmers.amount;
+            educatedFarmersAmount.innerHTML = formatNum(educatedFarmers.amount);
             
             educatedFarmers.foodPrice = Number(localStorage.educatedFarmersFoodPrice);
-            educatedFarmersFoodPrice.innerHTML = educatedFarmers.foodPrice;
+            educatedFarmersFoodPrice.innerHTML = formatNum(educatedFarmers.foodPrice);
             
             educatedFarmers.goldPrice = Number(localStorage.educatedFarmersGoldPrice);
-            educatedFarmersGoldPrice.innerHTML = educatedFarmers.goldPrice;
+            educatedFarmersGoldPrice.innerHTML = formatNum(educatedFarmers.goldPrice);
         }
         
         var educatedFarmersINT;
@@ -2166,16 +2210,10 @@ timerF(360, document.getElementById("timer"));
             educatedFarmersAmount.innerHTML = educatedFarmers.amount;
             
             localStorage.educatedFarmersFoodPrice = educatedFarmers.foodPrice;
-            educatedFarmersFoodPrice.innerHTML = educatedFarmers.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            educatedFarmersFoodPrice.innerHTML = formatNum(educatedFarmers.foodPrice);
             
             localStorage.educatedFarmersGoldPrice = educatedFarmers.goldPrice;
-            educatedFarmersGoldPrice.innerHTML = educatedFarmers.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            educatedFarmersGoldPrice.innerHTML = formatNum(educatedFarmers.goldPrice);
             clearInterval(educatedFarmersINT);
         }
         setInterval(educatedFarmersInterval, 1000);
@@ -2188,10 +2226,10 @@ timerF(360, document.getElementById("timer"));
         moneyAmount.innerHTML = money.amount;
         
         money.foodPrice = Number(localStorage.moneyFoodPrice);
-        moneyFoodPrice.innerHTML = money.foodPrice;
+        moneyFoodPrice.innerHTML = formatNum(money.foodPrice);
         
         money.goldPrice = Number(localStorage.moneyGoldPrice);
-        moneyGoldPrice.innerHTML = money.goldPrice;
+        moneyGoldPrice.innerHTML = formatNum(money.goldPrice);
         }
 
         var moneyINT;
@@ -2200,16 +2238,10 @@ timerF(360, document.getElementById("timer"));
             moneyAmount.innerHTML = money.amount;
             
             localStorage.moneyFoodPrice = money.foodPrice;
-            moneyFoodPrice.innerHTML = money.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            moneyFoodPrice.innerHTML = formatNum(money.foodPrice);
             
             localStorage.moneyGoldPrice = money.goldPrice;
-            moneyGoldPrice.innerHTML = money.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            moneyGoldPrice.innerHTML = formatNum(money.goldPrice);
             clearInterval(moneyINT);
         }  
         setInterval(moneyInterval, 1000);
@@ -2222,10 +2254,10 @@ timerF(360, document.getElementById("timer"));
         townAmount.innerHTML = town.amount;
             
         town.foodPrice = Number(localStorage.townFoodPrice);  
-        townFoodPrice.innerHTML = town.foodPrice;
+        townFoodPrice.innerHTML = formatNum(town.foodPrice);
             
         town.goldPrice = Number(localStorage.townGoldPrice);
-        townGoldPrice.innerHTML = town.goldPrice;
+        townGoldPrice.innerHTML = formatNum(town.goldPrice);
         }
 
         var townINT;
@@ -2234,16 +2266,10 @@ timerF(360, document.getElementById("timer"));
             townAmount.innerHTML = town.amount;
             
             localStorage.townFoodPrice = town.foodPrice;
-            townFoodPrice.innerHTML = town.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            townFoodPrice.innerHTML = formatNum(town.foodPrice);
             
             localStorage.townGoldPrice = town.goldPrice;
-            townGoldPrice.innerHTML = town.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            townGoldPrice.innerHTML = formatNum(town.goldPrice);
             clearInterval(townINT);
         }
         setInterval(townInterval, 1000);
@@ -2256,10 +2282,10 @@ timerF(360, document.getElementById("timer"));
         tradeAmount.innerHTML = trade.amount;
             
         trade.foodPrice = Number(localStorage.tradeFoodPrice);
-        tradeFoodPrice.innerHTML = trade.foodPrice;
+        tradeFoodPrice.innerHTML = formatNum(trade.foodPrice);
             
         trade.goldPrice = Number(localStorage.tradeGoldPrice);
-        tradeGoldPrice.innerHTML = trade.goldPrice;
+        tradeGoldPrice.innerHTML = formatNum(trade.goldPrice);
         }
 
         var tradeINT;
@@ -2268,16 +2294,10 @@ timerF(360, document.getElementById("timer"));
             tradeAmount.innerHTML = trade.amount;
             
             localStorage.tradeFoodPrice = trade.foodPrice;
-            tradeFoodPrice.innerHTML = trade.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            tradeFoodPrice.innerHTML = formatNum(trade.foodPrice);
             
             localStorage.tradeGoldPrice = trade.goldPrice;
-            tradeGoldPrice.innerHTML = trade.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            tradeGoldPrice.innerHTML = formatNum(trade.goldPrice);
             clearInterval(tradeINT);
         }
         setInterval(tradeInterval, 1000);
@@ -2290,10 +2310,10 @@ timerF(360, document.getElementById("timer"));
         tavernAmount.innerHTML = tavern.amount;
             
         tavern.foodPrice = Number(localStorage.tavernFoodPrice);
-        tavernFoodPrice.innerHTML = tavern.foodPrice;
+        tavernFoodPrice.innerHTML = formatNum(tavern.foodPrice);
             
         tavern.goldPrice = Number(localStorage.tavernGoldPrice);
-        tavernGoldPrice.innerHTML = tavern.goldPrice;
+        tavernGoldPrice.innerHTML = formatNum(tavern.goldPrice);
         }
 
         var tavernINT;
@@ -2302,16 +2322,10 @@ timerF(360, document.getElementById("timer"));
             tavernAmount.innerHTML = tavern.amount;
             
             localStorage.tavernFoodPrice = tavern.foodPrice;
-            tavernFoodPrice.innerHTML = tavern.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            tavernFoodPrice.innerHTML = formatNum(tavern.foodPrice);
             
             localStorage.tavernGoldPrice = tavern.goldPrice;
-            tavernGoldPrice.innerHTML = tavern.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            tavernGoldPrice.innerHTML = formatNum(tavern.goldPrice);
             clearInterval(tavernINT);
         }
         setInterval(tavernInterval, 1000);
@@ -2324,10 +2338,10 @@ timerF(360, document.getElementById("timer"));
         entertainmentAmount.innerHTML = entertainment.amount;
         
         entertainment.foodPrice = Number(localStorage.entertainmentFoodPrice);
-        entertainmentFoodPrice.innerHTML = entertainment.foodPrice;
+        entertainmentFoodPrice.innerHTML = formatNum(entertainment.foodPrice);
             
         entertainment.goldPrice = Number(localStorage.entertainmentGoldPrice);
-        entertainmentGoldPrice.innerHTML = entertainment.goldPrice;
+        entertainmentGoldPrice.innerHTML = formatNum(entertainment.goldPrice);
         }
 
         var entertainmentINT;
@@ -2336,16 +2350,10 @@ timerF(360, document.getElementById("timer"));
             entertainmentAmount.innerHTML = entertainment.amount;
             
             localStorage.entertainmentFoodPrice = entertainment.foodPrice;
-            entertainmentFoodPrice.innerHTML = entertainment.foodPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            entertainmentFoodPrice.innerHTML = formatNum(entertainment.foodPrice);
             
             localStorage.entertainmentGoldPrice = entertainment.goldPrice;
-            entertainmentGoldPrice.innerHTML = entertainment.goldPrice.toLocaleString(undefined ,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            entertainmentGoldPrice.innerHTML = formatNum(entertainment.goldPrice);
             clearInterval(entertainmentINT);
         }
         setInterval(entertainmentInterval, 1000);
@@ -2358,10 +2366,10 @@ timerF(360, document.getElementById("timer"));
             betterEconomyAmount.innerHTML = betterEconomy.amount;
             
             betterEconomy.foodPrice = Number(localStorage.betterEconomyFoodPrice);
-            betterEconomyFoodPrice.innerHTML = betterEconomy.foodPrice;
+            betterEconomyFoodPrice.innerHTML = formatNum(betterEconomy.foodPrice);
             
             betterEconomy.goldPrice = Number(localStorage.betterEconomyGoldPrice);
-            betterEconomyGoldPrice.innerHTML = betterEconomy.goldPrice;
+            betterEconomyGoldPrice.innerHTML = formatNum(betterEconomy.goldPrice);
         }
 
         var betterEconomyINT;
@@ -2371,16 +2379,10 @@ timerF(360, document.getElementById("timer"));
             betterEconomyAmount.innerHTML = betterEconomy.amount;
             
             localStorage.betterEconomyFoodPrice = betterEconomy.foodPrice;
-            betterEconomyFoodPrice.innerHTML = betterEconomy.foodPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            betterEconomyFoodPrice.innerHTML = formatNum(betterEconomy.foodPrice);
             
             localStorage.betterEconomyGoldPrice = betterEconomy.goldPrice;
-            betterEconomyGoldPrice.innerHTML = betterEconomy.goldPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            betterEconomyGoldPrice.innerHTML = formatNum(betterEconomy.goldPrice);
             clearInterval(betterEconomyINT);
         }
         setInterval(betterEconomyInterval, 1000);
@@ -2393,10 +2395,10 @@ timerF(360, document.getElementById("timer"));
             taxesAmount.innerHTML = taxes.amount;
             
             taxes.foodPrice = Number(localStorage.taxesFoodPrice);
-            taxesFoodPrice.innerHTML = taxes.foodPrice;
+            taxesFoodPrice.innerHTML = formatNum(taxes.foodPrice);
             
             taxes.goldPrice = Number(localStorage.taxesGoldPrice);
-            taxesGoldPrice.innerHTML = taxes.goldPrice;
+            taxesGoldPrice.innerHTML = formatNum(taxes.goldPrice);
         }
 
         var taxesINT;
@@ -2405,16 +2407,10 @@ timerF(360, document.getElementById("timer"));
             taxesAmount.innerHTML = taxes.amount;
             
             localStorage.taxesFoodPrice = taxes.foodPrice;
-            taxesFoodPrice.innerHTML = taxes.foodPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            taxesFoodPrice.innerHTML = formatNum(taxes.foodPrice);
             
             localStorage.taxesGoldPrice = taxes.goldPrice;
-            taxesGoldPrice.innerHTML = taxes.goldPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            taxesGoldPrice.innerHTML = formatNum(taxes.goldPrice);
             clearInterval(taxesINT);
         }
         setInterval(taxesInterval, 1000);
@@ -2427,10 +2423,10 @@ timerF(360, document.getElementById("timer"));
             educationAmount.innerHTML = education.amount;
             
             education.foodPrice = Number(localStorage.educationFoodPrice);
-            educationFoodPrice.innerHTML = education.foodPrice;
+            educationFoodPrice.innerHTML = formatNum(education.foodPrice);
             
             education.goldPrice = Number(localStorage.educationGoldPrice);
-            educationGoldPrice.innerHTML = education.goldPrice;
+            educationGoldPrice.innerHTML = formatNum(education.goldPrice);
         }
 
         var educationINT;
@@ -2440,16 +2436,10 @@ timerF(360, document.getElementById("timer"));
             educatedFarmersAmount.innerHTML = education.amount;
             
             localStorage.educationFoodPrice = education.foodPrice;
-            educationFoodPrice.innerHTML = education.foodPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            educationFoodPrice.innerHTML = formatNum(education.foodPrice);
             
             localStorage.educationGoldPrice = education.goldPrice;
-            educationGoldPrice.innerHTML = education.goldPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            educationGoldPrice.innerHTML = formatNum(education.goldPrice);
             clearInterval(educationINT);
         }
         setInterval(educationInterval, 1000);
@@ -2462,10 +2452,10 @@ timerF(360, document.getElementById("timer"));
             weaponIndustryAmount.innerHTML = weaponIndustry.amount;
             
             weaponIndustry.foodPrice = Number(localStorage.weaponIndustryFoodPrice);
-            weaponIndustryFoodPrice.innerHTML = weaponIndustry.foodPrice;
+            weaponIndustryFoodPrice.innerHTML = formatNum(weaponIndustry.foodPrice);
             
             weaponIndustry.goldPrice = Number(localStorage.weaponIndustryGoldPrice);
-            weaponIndustryGoldPrice.innerHTML = weaponIndustry.goldPrice;
+            weaponIndustryGoldPrice.innerHTML = formatNum(weaponIndustry.goldPrice);
         }
 
         var weaponIndustryINT;
@@ -2475,16 +2465,10 @@ timerF(360, document.getElementById("timer"));
             weaponIndustryAmount.innerHTML = weaponIndustry.amount;
             
             localStorage.weaponIndustryFoodPrice = weaponIndustry.foodPrice;
-            weaponIndustryFoodPrice.innerHTML = weaponIndustry.foodPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            weaponIndustryFoodPrice.innerHTML = formatNum(weaponIndustry.foodPrice);
             
             localStorage.weaponIndustryGoldPrice = weaponIndustry.goldPrice;
-            weaponIndustryGoldPrice.innerHTML = weaponIndustry.goldPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            weaponIndustryGoldPrice.innerHTML = formatNum(weaponIndustry.goldPrice);
             clearInterval(weaponIndustryINT);
         }
         setInterval(weaponIndustryInterval, 1000);
@@ -2497,11 +2481,11 @@ timerF(360, document.getElementById("timer"));
             bankAmount.innerHTML = bank.amount;
             
             bank.foodPrice = Number(localStorage.bankFoodPrice);
-            bankFoodPrice.innerHTML = bank.foodPrice;
+            bankFoodPrice.innerHTML = formatNum(bank.foodPrice);
             
             
             bank.goldPrice = Number(localStorage.bankGoldPrice);
-            bankGoldPrice.innerHTML = bank.goldPrice;
+            bankGoldPrice.innerHTML = formatNum(bank.goldPrice);
         }
     
         var bankINT;
@@ -2511,16 +2495,10 @@ timerF(360, document.getElementById("timer"));
             bankAmount.innerHTML = bank.amount;
             
             localStorage.bankFoodPrice = bank.foodPrice;
-            bankFoodPrice.innerHTML = bank.foodPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            bankFoodPrice.innerHTML = formatNum(bank.foodPrice);
             
             localStorage.bankGoldPrice = bank.goldPrice;
-            bankGoldPrice.innerHTML = bank.goldPrice.toLocaleString(undefined,{
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2
-                                });
+            bankGoldPrice.innerHTML = formatNum(bank.goldPrice);
             clearInterval(bankINT);
         }
         setInterval(bankInterval, 1000);
