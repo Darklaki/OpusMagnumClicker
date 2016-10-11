@@ -1,0 +1,334 @@
+<html>
+<head>
+<title>OpusMagnum Clicker</title>
+<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+<link type="text/css" rel="stylesheet" href="css/style.css">
+<meta charset="utf-8">    
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+</head>
+<body>
+
+<div class="entry-info" id="enter">  
+    <div class="enter-info-box">
+        <img src="images/apple.png" class="apple">
+        <a>So your father is dead.  You are king now. Lead our  people to victory. Fix your father mistakes. Take over our enemies lands. Its your life goal now. We rely on you...</a>
+        <div class="item-button" id="startButton">I understand</div>
+    </div>  
+</div>
+
+    <div class="contact">
+        <a id="resetGame">Reset game</a>
+    </div>
+    <div class="game">
+        <!--FOOD_MODULE-->
+        <div class="module">
+            <div class="amount-name-module"> <a id="foodAmount">0</a> food</div>
+            <div class="persec-of-module"> <a id="foodPersec">0</a> p/sec</div>
+            <div class="button" id="clickFood">Harvest</div>
+            <div class="item-container">
+                <div class="item">
+                    <img class="item-image" src="images/items/foodItems/bread.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="bakeryAmount">0</a> Bakery</div>
+                        <div class="cost-item">Cost: <a id="bakeryCostGold">0</a> gold, <a id="bakeryCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="bakeryPS">0</a> food p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyBakery">Buy</div>
+                </div>
+                <div class="item" id="cornFields">
+                    <img class="item-image" src="images/items/foodItems/cornFields.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="cornFieldsAmount">0</a> Corn Fields</div>
+                        <div class="cost-item">Cost: <a id="cornFieldsCostGold">0</a> gold, <a id="cornFieldsCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="cornFieldsPS">0</a> food p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyCornFields">Buy</div>
+                </div>
+                <div class="item" id="cattle">
+                    <img class="item-image" src="images/items/foodItems/cattle.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="cattleAmount">0</a> Cattle</div>
+                        <div class="cost-item">Cost: <a id="cattleCostGold">0</a> gold, <a id="cattleCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="cattlePS">0</a> food p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyCattle">Buy</div>
+                </div>
+                <div class="item" id="hunting">
+                    <img class="item-image" src="images/items/foodItems/hunting.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="huntingAmount">0</a> Hunting</div>
+                        <div class="cost-item">Cost: <a id="huntingCostGold">0</a> gold, <a id="huntingCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="huntingPS">0</a> food p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyHunting">Buy</div>
+                </div>
+                <div class="item" id="serfdom">
+                    <img class="item-image" src="images/items/foodItems/serfdom.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="serfodomAmount">0</a> Serfdom</div>
+                        <div class="cost-item">Cost: <a id="serfodomCostGold">0</a> gold, <a id="serfodomCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="serfdomPS">0</a> food p/sec</div>
+                    </div>
+                    <div class="item-button" id="buySerfodom">Buy</div>
+                </div>
+                <div class="item" id="vegetables">
+                    <img class="item-image" src="images/items/foodItems/vegetables.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="vegetablesAmount">0</a> Vegetables farms</div>
+                        <div class="cost-item">Cost: <a id="vegetablesCostGold">0</a> gold, <a id="vegetablesCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="vegetablesPS">0</a> food p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyVegetables">Buy</div>
+                </div>
+                <div class="item" id="dairy">
+                    <img class="item-image" src="images/items/foodItems/cheese.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="dairyAmount">0</a> Dairy</div>
+                        <div class="cost-item">Cost: <a id="dairyCostGold">0</a> gold, <a id="dairyCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="dairyPS">0</a> food p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyDairy">Buy</div>
+                </div>
+                <div class="item" id="tools">
+                    <img class="item-image" src="images/items/foodItems/tools.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="toolsAmount">0</a> Tools</div>
+                        <div class="cost-item">Cost: <a id="toolsCostGold">0</a> gold, <a id="toolsCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="toolsPS">0</a> food p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyTools">Buy</div>
+                </div>
+                <div class="item" id="fisherman">
+                    <img class="item-image" src="images/items/foodItems/fishing.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="fishermansAmount">0</a> Fishermans</div>
+                        <div class="cost-item">Cost: <a id="fishermansCostGold">0</a> gold, <a id="fishermansCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="fishermansPS">0</a> food p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyFishermans">Buy</div>
+                </div>
+                <div class="item" id="educatedFarmers">
+                    <img class="item-image" src="images/items/foodItems/educated%20farmers.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="educatedFarmersAmount">0</a> Educated farmers</div>
+                        <div class="cost-item">Cost: <a id="educatedFarmersCostGold">0</a> gold, <a id="educatedFarmersCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="educatedFarmersPS">0</a> food p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyEducatedFarmers">Buy</div>
+                </div>
+            </div>
+        </div>
+        <!--ECONOMY_MODULE-->
+        <div class="module">
+            <div class="amount-name-module"> <a id="goldAmount">0</a> gold</div>
+            <div class="persec-of-module"> <a id="goldPersec">0</a> p/sec</div>
+            <div class="button" id="clickGold">Click</div>
+            <div class="item-container">
+                <div class="item">
+                    <img class="item-image" src="images/items/economyItems/money.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="moneyAmount">0</a> Money</div>
+                        <div class="cost-item">Cost: <a id="moneyCostGold">0</a> gold, <a id="moneyCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="moneyPS">0</a> gold p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyMoney">Buy</div>
+                </div>
+                <div class="item" id="town">
+                    <img class="item-image" src="images/items/economyItems/town.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="townAmount">0</a> Towns</div>
+                        <div class="cost-item">Cost: <a id="townCostGold">0</a> gold, <a id="townCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="townPS">0</a> gold p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyTown">Buy</div>
+                </div>
+                <div class="item" id="trade">
+                    <img class="item-image" src="images/items/economyItems/trade.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="tradeAmount">0</a> Trade</div>
+                        <div class="cost-item">Cost: <a id="tradeCostGold">0</a> gold, <a id="tradeCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="tradePS">0</a> gold p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyTrade">Buy</div>
+                </div>
+                <div class="item" id="tavern">
+                    <img class="item-image" src="images/items/economyItems/taverns.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="tavernAmount">0</a> Taverns</div>
+                        <div class="cost-item">Cost: <a id="tavernCostGold">0</a> gold, <a id="tavernCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="tavernPS">0</a> gold p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyTavern">Buy</div>
+                </div>
+                <div class="item" id="entertainment">
+                    <img class="item-image" src="images/items/economyItems/entertainment.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="entertainmentAmount">0</a> Entertainment</div>
+                        <div class="cost-item">Cost: <a id="entertainmentCostGold">0</a> gold, <a id="entertainmentCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="entertainmentPS">0</a> gold p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyEntertainment">Buy</div>
+                </div>
+                <div class="item" id="betterEconomy">
+                    <img class="item-image" src="images/items/economyItems/betterEconomy.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="betterEconomyAmount">0</a> Better economy</div>
+                        <div class="cost-item">Cost: <a id="betterEconomyCostGold">0</a> gold, <a id="betterEconomyCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="betterEconomyPS">0</a> gold p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyBetterEconomy">Buy</div>
+                </div>
+                <div class="item" id="taxes">
+                    <img class="item-image" src="images/items/economyItems/taxes.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="taxesAmount">0</a> Taxes</div>
+                        <div class="cost-item">Cost: <a id="taxesCostGold">0</a> gold, <a id="taxesCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="taxesPS">0</a> gold p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyTaxes">Buy</div>
+                </div>
+                <div class="item" id="education">
+                    <img class="item-image" src="images/items/economyItems/education.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="educationAmount">0</a> Education</div>
+                        <div class="cost-item">Cost: <a id="educationsCostGold">0</a> gold, <a id="educationCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="educationPS">0</a> gold p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyEducation">Buy</div>
+                </div>
+                <div class="item" id="weaponIndustry">
+                    <img class="item-image" src="images/items/economyItems/weaponIndustry.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="weaponIndustryAmount">0</a> Weapon industry</div>
+                        <div class="cost-item">Cost: <a id="weaponIndustryCostGold">0</a> gold, <a id="weaponIndustryCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="weaponIndustryPS">0</a> gold p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyWeaponIndustry">Buy</div>
+                </div>
+                <div class="item" id="bank">
+                    <img class="item-image" src="images/items/economyItems/bank.png">
+                    <div class="item-describe">
+                        <div class="amount-name-item"> <a id="bankAmount">0</a> Bank</div>
+                        <div class="cost-item">Cost: <a id="bankCostGold">0</a> gold, <a id="bankCostFood">0</a> food</div>
+                        <div class="persec-item">+<a id="bankPS">0</a> gold p/sec</div>
+                    </div>
+                    <div class="item-button" id="buyBank">Buy</div>
+                </div>
+            </div>
+        </div>
+        <!--ARMY/CASTLES_MODULE-->
+        <div class="module war-crd" id="warCard">
+            <div class="item-container" id="mapScroll">
+                <div class="cards">
+                    <div class="army-crd" id="armyCardDOM">Army</div>
+                    <div class="castles-crd" id="mapCardDOM">Castles</div>
+                </div>
+                <!--ARMY-->
+                <div class="army" id="armyCard">
+                    <div class="buy-army">
+                        <div class="amount-name-module"> <a id="soldiersAmount">0</a> Soldiers</div>
+                        <div class="soldier-cost">Cost: <a id="soldierCost">0</a></div>
+                        <div class="soldier-cost">Soldier eats <a id="soldierEatsPS">0</a> food p/s</div>
+                        <div class="soldier-button" id="buyOneSoldier">Buy one</div>
+                        <div class="row centerrow"><div class="soldier-button" id="buyMaxSoldier">Buy<br /></div> <input class="input" id="soldiersInput" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57'> <a id="howManyToBuy"></a></div>
+                    </div>
+                    <div class="buy-army">
+                        <div class="amount-name-module"> <a id="defSoldiersAmount">0</a> Defensive soldiers</div>
+                        <div class="soldier-cost">Cost: <a id="defSoldierCost">0</a></div>
+                        <div class="soldier-cost">Defensive soldier eats <a id="defSoldierEatsPS">0</a> food p/s</div>
+                        <div class="soldier-button" id="buyOneDefSoldier">Buy one</div>
+                        <div class="row centerrow"><div class="soldier-button" id="buyMaxDefSoldier">Buy<br /></div> <input class="input" id="defSoldiersInput" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57'> <a id="howManyDefToBuy"></a></div>
+                    </div>
+                    <div class="item" id="trainingFieldItem">
+                        <img class="item-image" src="images/warBuildings/trainingField.png" id="trainField">
+                        <div class="item-describe">
+                            <div class="amount-name-item"> Train fields</div>
+                            <div class="cost-item">Cost: <a id="trainingFieldCost">0</a></div>
+                        </div>
+                        <div class="item-button" id="buyTrainingField">Buy</div>
+                        <div class="info-box" id="trainFieldIB">Soldiers will cost 30 gold less now.</div>
+                    </div>
+                    <div class="item" id="barracksItem">
+                        <img class="item-image" src="images/warBuildings/barracks.png" id="barracks">
+                        <div class="item-describe">
+                            <div class="amount-name-item"> Barracks</div>
+                            <div class="cost-item">Cost: <a id="barracksCost">0</a></div>
+                        </div>
+                        <div class="item-button" id="buyBarracks">Buy</div>
+                        <div class="info-box" id="barracksIB">New soldiers will eat 0.1 food per second less now.</div>
+                    </div>
+                    <div class="item" id="tacticsItem">
+                        <img class="item-image" src="images/warBuildings/tactics.png" id="tactics">
+                        <div class="item-describe">
+                            <div class="amount-name-item"> Tactics</div>
+                            <div class="cost-item">Cost: <a id="tacticsCost">0</a></div>
+                        </div>
+                        <div class="item-button" id="buyTactics">Buy</div>
+                        <div class="info-box" id="tacticsIB">Soldiers will cost 50 gold less now.</div>
+                    </div>
+                    <div class="item" id="trainingItem">
+                        <img class="item-image" src="images/warBuildings/training.png" id="training">
+                        <div class="item-describe">
+                            <div class="amount-name-item"> Training</div>
+                            <div class="cost-item">Cost: <a id="trainingCost">0</a></div>
+                        </div>
+                        <div class="item-button" id="buyTraining">Buy</div>
+                        <div class="info-box" id="trainingIB">New soldiers will eat 0.2 food per second less now.</div>
+                    </div>
+                    <div class="item" id="equipmentItem">
+                        <img class="item-image" src="images/warBuildings/equipment.png" id="equipment">
+                        <div class="item-describe">
+                            <div class="amount-name-item"> Equipment</div>
+                            <div class="cost-item">Cost: <a id="equipmentCost">0</a></div>
+                        </div>
+                        <div class="item-button" id="buyEquipment">Buy</div>
+                        <div class="info-box" id="equipmentIB">Soldiers will cost 20 gold less now.</div>
+                    </div>
+                </div>
+                <div id="mapCard" >
+                    <div class="castle-block"><img src="images/castles/castle01.png" id="castle01"><div class="info-box" id="castle01IB"><a>Bonfire</a><div><a>Chance to win: <a id="castle01chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle02.png" id="castle02"><div class="info-box" id="castle02IB"><a>Small camp</a><div><a>Chance to win: <a id="castle02chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle03.png" id="castle03"><div class="info-box" id="castle03IB"><a>Camp in the forest</a><div><a>Chance to win: <a id="castle03chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle04.png" id="castle04"><div class="info-box" id="castle04IB"><a>Abandoned castle</a><div><a>Chance to win: <a id="castle04chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle05.png" id="castle05"><div class="info-box" id="castle05IB"><a>Strange cemetery</a><div><a>Chance to win: <a id="castle05chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle06.png" id="castle06"><div class="info-box" id="castle06IB"><a>Camp in the forest</a><div><a>Chance to win: <a id="castle06chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle07.png" id="castle07"><div class="info-box" id="castle07IB"><a>Small village</a><div><a>Chance to win: <a id="castle07chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle08.png" id="castle08"><div class="info-box" id="castle08IB"><a>Rock Town</a><div><a>Chance to win: <a id="castle08chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle09.png" id="castle09"><div class="info-box" id="castle09IB"><a>Village with river</a><div><a>Chance to win: <a id="castle09chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle10.png" id="castle10"><div class="info-box" id="castle10IB"><a>Medium size village</a><div><a>Chance to win: <a id="castle10chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle11.png" id="castle11"><div class="info-box" id="castle11IB"><a>Two villages</a><div><a>Chance to win: <a id="castle11chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle12.png" id="castle12"><div class="info-box" id="castle12IB"><a>Small town</a><div><a>Chance to win: <a id="castle12chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle13.png" id="castle13"><div class="info-box" id="castle13IB"><a>Town with a moat</a><div><a>Chance to win: <a id="castle13chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle14.png" id="castle14"><div class="info-box" id="castle14IB"><a>Village in forest</a><div><a>Chance to win: <a id="castle14chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle15.png" id="castle15"><div class="info-box" id="castle15IB"><a>Town in mountain</a><div><a>Chance to win: <a id="castle15chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle16.png" id="castle16"><div class="info-box" id="castle16IB"><a>Camp in tree</a><div><a>Chance to win: <a id="castle16chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle17.png" id="castle17"><div class="info-box" id="castle17IB"><a>Strange building</a><div><a>Chance to win: <a id="castle17chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle18.png" id="castle18"><div class="info-box" id="castle18IB"><a>Abandoned castle in mountains</a><div><a>Chance to win: <a id="castle18chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle19.png" id="castle19"><div class="info-box" id="castle19IB"><a>Town</a><div><a>Chance to win: <a id="castle19chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle20.png" id="castle20"><div class="info-box" id="castle20IB"><a>Western Gate</a><div><a>Chance to win: <a id="castle20chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle21.png" id="castle21"><div class="info-box" id="castle21IB"><a>Magicians School</a><div><a>Chance to win: <a id="castle21chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle22.png" id="castle22"><div class="info-box" id="castle22IB"><a>Small stronghold</a><div><a>Chance to win: <a id="castle22chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle23.png" id="castle23"><div class="info-box" id="castle23IB"><a>Stronghold</a><div><a>Chance to win: <a id="castle23chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle24.png" id="castle24"><div class="info-box" id="castle24IB"><a>Turkish stronghold</a><div><a>Chance to win: <a id="castle24chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle25.png" id="castle25"><div class="info-box" id="castle25IB"><a>Ancient Pyramid</a><div><a>Chance to win: <a id="castle25chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle26.png" id="castle26"><div class="info-box" id="castle26IB"><a>Castle</a><div><a>Chance to win: <a id="castle26chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle27.png" id="castle27"><div class="info-box" id="castle27IB"><a>Big stronghold</a><div><a>Chance to win: <a id="castle27chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle28.png" id="castle28"><div class="info-box" id="castle28IB"><a>Big castle</a><div><a>Chance to win: <a id="castle28chance">0</a>%</a></div></div></div>
+                     <div class="castle-block"><img src="images/castles/castle29.png" id="castle29"><div class="info-box" id="castle29IB"><a>Castle with a moat</a><div><a>Chance to win: <a id="castle29chance">0</a>%</a></div></div></div>
+                    <div class="castle-block"><img src="images/castles/castle30.png" id="castle30"><div class="info-box" id="castle30IB"><a>Mysterious Teleport</a><div><a>Chance to win: <a id="castle30chance">0</a>%</a></div></div></div>
+                </div>
+            </div>
+            <div class="barbarians"><a>Next barbarian attack in <b><a id="timer"></a></b> </a> <a> | </a> <a id="barbariansShow"><b>?</b></a>   </div>
+            <div class="info-box" id="barbariansIB"> <div class="row"><a id="predictLess"></a> - <a id="predictMore"> </div><a>barbarians will atack us</a></a></div>
+        </div>
+        </div>
+
+<div class="warBoxes" id="warInfoBoxContainer">
+    
+</div>    
+    
+<script src="engine/engine.js"></script>    
+<script src="engine/domActions.js"></script>
+</body>
+</html>
