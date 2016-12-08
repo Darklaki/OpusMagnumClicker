@@ -345,7 +345,7 @@ body{
     align-self: flex-end;
     bottom: 0;
     align-items: center;
-    
+    justify-content: center;
 }
 
 .mail {
